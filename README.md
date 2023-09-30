@@ -1,7 +1,5 @@
 # Template App
 
----
-
 This is a started template react app.
 
 ## Added Packages:
