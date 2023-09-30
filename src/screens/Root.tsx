@@ -5,7 +5,7 @@ export default function Root() {
 
 	return (
 		<Screen>
-			<div>App v1.0.0</div>
+			<div>Template v1.0.0</div>
 		</Screen>
 	)
 }
