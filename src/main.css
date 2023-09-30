@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	@apply box-border;
+}
+
+body {
+	@apply flex flex-col w-full h-screen text-base font-inter;
+}
+
+#root {
+	@apply flex flex-col flex-grow;
+}
+
+a,
+.link {
+	@apply text-purple-600 underline;
+}
+a:visited,
+.link:visited {
+	@apply text-purple-800 underline;
+}
