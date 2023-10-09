@@ -7,9 +7,10 @@ export default {
 			base: '14px',
 		},
 		fontFamily: {
-			inter: ['Inter', 'sans-serif'],
-			SFProText: ['SF Pro Text'],
-			SFProDisplay: ['SF Pro Display'],
+			Inter: ['Inter', 'sans-serif'],
+			SFProText: ['SF Pro Text', 'sans-serif'],
+			SFProDisplay: ['SF Pro Display', 'sans-serif'],
+			DMSans: ['DM Sans', 'sans-serif'],
 		},
 	},
 	plugins: [],
