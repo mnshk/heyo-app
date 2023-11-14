@@ -8,9 +8,9 @@ export default {
 		},
 		fontFamily: {
 			Inter: ['Inter', 'sans-serif'],
-			SFProText: ['SF Pro Text', 'sans-serif'],
-			SFProDisplay: ['SF Pro Display', 'sans-serif'],
 			DMSans: ['DM Sans', 'sans-serif'],
+			Poppins: ['Poppins', 'sans-serif'],
+			Nunito: ['Nunito', 'sans-serif'],
 		},
 	},
 	plugins: [],

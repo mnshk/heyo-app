@@ -22,3 +22,23 @@ a:visited,
 .link:visited {
 	@apply text-purple-800 underline;
 }
+
+.d1,
+.d2,
+.d3,
+.d4 {
+	border: 1px solid red;
+}
+
+.d2 {
+	border-color: green;
+}
+.d3 {
+	border-color: blue;
+}
+.d3 {
+	border-color: yellow;
+}
+.d4 {
+	border-color: black;
+}
