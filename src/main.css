@@ -30,26 +30,6 @@ a:visited,
 	@apply text-purple-800 underline;
 }
 
-.d1,
-.d2,
-.d3,
-.d4 {
-	border: 1px solid red;
-}
-
-.d2 {
-	border-color: green;
-}
-.d3 {
-	border-color: blue;
-}
-.d3 {
-	border-color: yellow;
-}
-.d4 {
-	border-color: black;
-}
-
 .animate-in {
 	animation: page-in 300ms ease-out;
 }
@@ -58,10 +38,5 @@ a:visited,
 	0% {
 		transform: translateY(20px);
 		opacity: 0;
-	}
-	/* 90% {
-		transform: translateY(-5px);
-	} */
-	100% {
 	}
 }
