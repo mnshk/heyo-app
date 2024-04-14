@@ -6,8 +6,15 @@
 	@apply box-border;
 }
 
+html {
+	height: -webkit-fill-available;
+}
+
 body {
-	@apply flex flex-col w-full h-screen text-base font-DMSans;
+	@apply flex flex-col w-full text-base font-Averta subpixel-antialiased;
+	height: 100vh;
+	height: -webkit-fill-available;
+	background-color: white;
 }
 
 #root {
@@ -41,4 +48,20 @@ a:visited,
 }
 .d4 {
 	border-color: black;
+}
+
+.animate-in {
+	animation: page-in 300ms ease-out;
+}
+
+@keyframes page-in {
+	0% {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	/* 90% {
+		transform: translateY(-5px);
+	} */
+	100% {
+	}
 }
