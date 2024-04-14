@@ -38,3 +38,14 @@ export function ButtonDeny(props: CustomButtonProps) {
 export function ButtonNeutral(props: CustomButtonProps) {
 	return <Button className="bg-gray-200 border-gray-400 text-black" {...props} />
 }
+
+export function SimpleButton(props: HTMLAttributes<HTMLButtonElement>) {
+	return (
+		<button
+			className="bg-gray-100 border p-[2px] px-[20px] text-[14px] hover:brightness-90 active:brightness-75"
+			{...props}
+		>
+			{props.children}
+		</button>
+	)
+}
