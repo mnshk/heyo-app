@@ -12,6 +12,7 @@ export default {
 			Poppins: ["Poppins", "sans-serif"],
 			Nunito: ["Nunito", "sans-serif"],
 			Averta: ["Averta"],
+			RobotoMono: ["Roboto Mono"],
 		},
 	},
 	plugins: [],
