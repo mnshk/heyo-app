@@ -1,5 +1,12 @@
 import { Context, createContext, Dispatch, SetStateAction } from "react"
 
+export type ILoading = {
+	isLoading: boolean
+	to?: string
+	random?: boolean
+	delay?: "short" | "medium" | "long"
+}
+
 export type RootContextProps = {
 	subject: string
 	setSubject: Dispatch<SetStateAction<string>>
@@ -7,8 +14,8 @@ export type RootContextProps = {
 	setIsAuthenticated: Dispatch<SetStateAction<boolean>>
 	preferredName: string
 	setPreferredName: Dispatch<SetStateAction<string>>
-	loading: boolean
-	setLoading: Dispatch<SetStateAction<boolean>>
+	loading: ILoading
+	setLoading: Dispatch<SetStateAction<ILoading>>
 }
 
 const RootContext: Context<RootContextProps> = createContext({

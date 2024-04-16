@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom"
 import logService from "../utils/logService"
+import Thinking from "../pages/Thinking"
 
 export default function RouteMiddleware() {
 	const location = useLocation()
@@ -12,5 +13,10 @@ export default function RouteMiddleware() {
 		location,
 	})
 
-	return <Outlet />
+	return (
+		<>
+			<Outlet />
+			<Thinking />
+		</>
+	)
 }

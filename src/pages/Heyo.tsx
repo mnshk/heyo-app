@@ -13,15 +13,18 @@ export default function Heyo() {
 		<View>
 			<ViewMain>
 				<ViewHeading>Heyo {subject}!</ViewHeading>
-				<div>Hope you find this well. If you are here that means you know me! or I know you.</div>
-				<div>There are some uncertain questions out there, looking for answers and yet to be explored.</div>
+				<div className="font-semibold">Break the ice if there's a spark</div>
+				<div>Well, if you are here that means you know me! or I know you.</div>
+				<div>There are some uncertainties yet to be explored.</div>
 			</ViewMain>
 			<ViewAction>
 				<ButtonNeutral
-					onClick={() => {
-						navigate("/name")
-						setLoading(true)
-					}}
+					onClick={() =>
+						setLoading({
+							isLoading: true,
+							to: "/name",
+						})
+					}
 				>
 					Alright! let's start
 				</ButtonNeutral>

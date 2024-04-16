@@ -3,7 +3,7 @@ import RootContext from "../context"
 import Heyo from "./Heyo"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ErrorPage from "./ErrorPage"
-import Name from "./Name"
+import Name from "./Questions/Name"
 import Goodbye from "./Goodbye"
 import ProtectedRoutes from "./ProtectedRoutes"
 import Login from "./Login"
@@ -11,7 +11,6 @@ import Dashboard from "./Dashboard"
 import Unauthorized from "./Unauthorized"
 import RouteMiddleware from "../common/RouterMiddleware"
 import fetchIP from "../utils/fetchIP"
-import Thinking from "./Thinking"
 
 const router = createBrowserRouter([
 	{ path: "dashboard", element: <Dashboard /> },
@@ -39,10 +38,12 @@ const router = createBrowserRouter([
 export default function App() {
 	document.title = "Heyo"
 
-	const [subject, setSubject] = useState("Subject")
+	const [subject, setSubject] = useState("Miss Shubhani")
 	const [isAuthenticated, setIsAuthenticated] = useState(false)
 	const [preferredName, setPreferredName] = useState("")
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState({
+		isLoading: false,
+	})
 
 	useEffect(() => {
 		fetchIP()
@@ -62,7 +63,6 @@ export default function App() {
 			}}
 		>
 			<RouterProvider router={router} />
-			<Thinking />
 		</RootContext.Provider>
 	)
 }
