@@ -48,7 +48,7 @@ export const handler: Handler = async (event) => {
 				}
 				case "find": {
 					const result: WithId<unknown>[] = []
-					const cursor = collection.find()
+					const cursor = collection.find().sort({ time: 1 })
 					for await (const doc of cursor) {
 						result.push(doc)
 					}
@@ -61,7 +61,7 @@ export const handler: Handler = async (event) => {
 					})
 					break
 				}
-				case "deleteAllLogs": {
+				case "deleteMany": {
 					response.body.payload = await collection.deleteMany()
 					break
 				}
