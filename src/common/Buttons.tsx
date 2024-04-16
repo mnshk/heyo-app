@@ -1,4 +1,5 @@
 import { HTMLAttributes, PropsWithChildren } from "react"
+import { MdOutlineArrowBack } from "react-icons/md"
 
 export type ButtonProps = {
 	className?: HTMLAttributes<HTMLDivElement>["className"]
@@ -43,6 +44,17 @@ export function SimpleButton(props: HTMLAttributes<HTMLButtonElement>) {
 	return (
 		<button className="bg-gray-200 border border-gray-300 p-[2px] px-[20px] text-[14px] hover:brightness-90 active:brightness-75" {...props}>
 			{props.children}
+		</button>
+	)
+}
+
+export function BackButton(props: HTMLAttributes<HTMLButtonElement>) {
+	return (
+		<button
+			className="text-[24px] bg-gray-500 hover:brightness-50 active:brightness-0 rounded-full w-[60px] h-[40px] flex items-center justify-center text-gray-700 bg-opacity-10"
+			{...props}
+		>
+			<MdOutlineArrowBack />
 		</button>
 	)
 }

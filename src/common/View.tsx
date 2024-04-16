@@ -10,23 +10,20 @@ export default function View(props: PropsWithChildren) {
 				backgroundSize: "cover",
 			}}
 		>
-			<div className="flex flex-grow max-w-[450px] flex-col justify-center items-center p-10">
-				{props.children}
-			</div>
+			<div className="flex flex-grow max-w-[450px] flex-col justify-center items-center p-10">{props.children}</div>
 		</div>
 	)
 }
 
 export function ViewMain(props: PropsWithChildren) {
-	return (
-		<div className="flex flex-grow flex-col items-center justify-center text-center gap-4">
-			{props.children}
-		</div>
-	)
+	return <div className="flex flex-grow flex-col items-center justify-center text-center gap-4">{props.children}</div>
 }
 
 export function ViewAction(props: PropsWithChildren) {
 	return <div className="flex gap-2 flex-col w-full">{props.children}</div>
+}
+export function ViewHeader(props: PropsWithChildren) {
+	return <div className="flex gap-2 w-full">{props.children}</div>
 }
 
 export function ViewHeading(props: PropsWithChildren) {
