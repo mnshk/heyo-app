@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import RootContext from "../context"
 import Heyo from "./Heyo"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
@@ -10,7 +10,6 @@ import Login from "./Login"
 import Dashboard from "./Dashboard"
 import Unauthorized from "./Unauthorized"
 import RouteMiddleware from "../common/RouterMiddleware"
-import fetchIP from "../utils/fetchIP"
 
 const router = createBrowserRouter([
 	{ path: "dashboard", element: <Dashboard /> },
@@ -44,10 +43,6 @@ export default function App() {
 	const [loading, setLoading] = useState({
 		isLoading: false,
 	})
-
-	useEffect(() => {
-		fetchIP()
-	}, [])
 
 	return (
 		<RootContext.Provider

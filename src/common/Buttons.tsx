@@ -53,8 +53,9 @@ export function BackButton(props: HTMLAttributes<HTMLButtonElement>) {
 		<button
 			className="text-[24px] bg-gray-500 hover:brightness-50 active:brightness-0 rounded-full w-[60px] h-[40px] flex items-center justify-center text-gray-700 bg-opacity-10"
 			{...props}
+			title="back_button"
 		>
-			<MdOutlineArrowBack />
+			<MdOutlineArrowBack className="pointer-events-none" />
 		</button>
 	)
 }

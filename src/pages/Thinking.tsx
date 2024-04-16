@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react"
 import RootContext from "../context"
 import thinkingImg from "../assets/media/hmm-thinking.gif"
 import { useNavigate } from "react-router-dom"
+import logService from "../utils/logService"
 
 const delays = {
 	short: 2000,
@@ -22,11 +23,16 @@ export default function Thinking() {
 		if (loading.isLoading === true) {
 			const time = loading.delay ? delays[loading.delay] : getRandom(1000, 10000)
 
-			console.log(time)
-
 			const timeout = setTimeout(() => {
 				navigate(loading.to!)
 				setLoading({ isLoading: false })
+				logService.send({
+					action: "Loading",
+					element: {
+						type: time.toString(),
+						label: "for " + loading.to,
+					},
+				})
 			}, time)
 
 			return () => {
@@ -34,15 +40,6 @@ export default function Thinking() {
 			}
 		}
 	})
-
-	// useEffect(() => {
-	// 	const timer = setTimeout(() => {
-	// 		setLoading(false)
-	// 	}, 2500)
-	// 	return () => {
-	// 		clearTimeout(timer)
-	// 	}
-	// })
 
 	return loading.isLoading ? (
 		<div className="fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center bg-black bg-opacity-70">

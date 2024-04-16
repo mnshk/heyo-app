@@ -1,4 +1,4 @@
-import { Children, PropsWithChildren, ReactNode, useEffect, useState } from "react"
+import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
 import { SimpleButton } from "../common/Buttons"
 import logService from "../utils/logService"
 import { ILog } from "../interfaces/log"
@@ -11,10 +11,11 @@ export default function Dashboard() {
 	async function fetchLogs() {
 		setLoading(true)
 		const data = await logService.get()
-		if (data.error.hasError) {
-			return <div>Something went wrong</div>
-		}
 		setLoading(false)
+		if (data.error.hasError) {
+			alert("Error")
+			return
+		}
 		setLogs(data.payload as ILog[])
 	}
 
@@ -106,7 +107,9 @@ export default function Dashboard() {
 									> */}
 									<div className="border p-2 flex flex-col bg-white">
 										<div className="flex gap-4 items-center">
-											<div className="flex-grow">{log.action}</div>
+											<div className="flex-grow">
+												{log.action} {log.element.label} {log.element.type}
+											</div>
 											<div className="text-gray-500 flex gap-1 text-[12px]">
 												<div>
 													{time.getHours() < 10 ? 0 : null}
@@ -136,12 +139,12 @@ export default function Dashboard() {
 	}
 }
 
-function CollapseBox(props: PropsWithChildren & { hidden: ReactNode }) {
-	const [open, setOpen] = useState(false)
-	return (
-		<div className="flex flex-col cursor-pointer" onClick={() => setOpen(!open)}>
-			{props.children}
-			{open ? <div className="flex flex-grow">{props.hidden}</div> : null}
-		</div>
-	)
-}
+// function CollapseBox(props: PropsWithChildren & { hidden: ReactNode }) {
+// 	const [open, setOpen] = useState(false)
+// 	return (
+// 		<div className="flex flex-col cursor-pointer" onClick={() => setOpen(!open)}>
+// 			{props.children}
+// 			{open ? <div className="flex flex-grow">{props.hidden}</div> : null}
+// 		</div>
+// 	)
+// }
