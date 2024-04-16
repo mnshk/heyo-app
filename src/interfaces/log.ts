@@ -5,12 +5,11 @@ export type ILog = {
 		type: string
 		label: string
 	}
-	location: {
+	location?: {
+		origin: string
 		pathname: string
 		search: string
 		hash: string
-		state: null
-		key: string
 	}
 	time?: number
 	ip?: string

@@ -33,24 +33,29 @@ const logService = {
 		return response
 	},
 	async send(payload: ILog) {
-		const p = {
+		const updatedPayload: ILog = {
 			...payload,
 			time: Date.now(),
-			ip: sessionStorage.getItem("ip"),
+			ip: sessionStorage.getItem("ip") ?? "NO_IP",
 			meta: {
 				innerHeight,
 				innerWidth,
 				userAgent: navigator.userAgent,
 			},
+			location: {
+				origin: window.location.origin,
+				pathname: window.location.pathname,
+				hash: window.location.hash,
+				search: window.location.search,
+			},
 		}
 
-		// return this.api({
-		// 	action: "insertOne",
-		// 	payload: p,
-		// })
+		console.log(updatedPayload)
 
-		console.log(p)
-		return {}
+		return this.api({
+			action: "insertOne",
+			payload: updatedPayload,
+		})
 	},
 	get() {
 		return this.api({
