@@ -1,14 +1,20 @@
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { ButtonDenySecondary } from "../common/Buttons"
-import sendLog from "../utils/sendLog"
+import logService from "../utils/logService"
 
 export default function Footer() {
 	const navigate = useNavigate()
 
+	const location = useLocation()
+
 	function handleClick() {
-		sendLog({
-			action: "button_click",
-			message: "clicked: I don't care. Get me out",
+		logService.send({
+			action: "User clicked a button",
+			element: {
+				type:"button",
+				label:"I don't care. Get me out"
+			},
+			location
 		})
 		navigate("/goodbye")
 	}

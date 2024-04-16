@@ -40,3 +40,19 @@ a:visited,
 		opacity: 0;
 	}
 }
+
+.animate-thinking {
+	animation: thinking 2s infinite ease-in-out;
+}
+
+@keyframes thinking {
+	0% {
+		/* transform: translate(0, 0px); */
+	}
+	50% {
+		transform: translate(10px, 15px);
+	}
+	100% {
+		/* transform: translate(0, -0px); */
+	}
+}

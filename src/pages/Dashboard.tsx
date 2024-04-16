@@ -1,30 +1,38 @@
-import { useEffect, useState } from "react"
-import { deleteAllLogs, deleteOneLog, getLogs } from "../utils/getLogs"
+import { Children, PropsWithChildren, ReactNode, useEffect, useState } from "react"
 import { SimpleButton } from "../common/Buttons"
+import logService from "../utils/logService"
+import { ILog } from "../interfaces/log"
 
 export default function Dashboard() {
-	const [logs, setLogs] = useState([])
+	const [logs, setLogs] = useState<ILog[]>([])
 
 	const [authenticated, setAuthenticated] = useState(false)
 
 	async function fetchLogs() {
-		const data = await getLogs()
-		setLogs(data.data)
-		console.log(data)
+		setLoading(true)
+		const data = await logService.get()
+		if (data.error.hasError) {
+			return <div>Something went wrong</div>
+		}
+		setLoading(false)
+		setLogs(data.payload as ILog[])
 	}
 
-	function handleDelete(id) {
+	function handleDelete(id: string) {
 		setLogs(logs.filter((log) => log._id !== id))
-		deleteOneLog(id)
+		logService.delete(id)
 	}
-
-	// alert(import.meta.env.VITE_DASHBOARD_KEY)
 
 	useEffect(() => {
 		fetchLogs()
+		setAuthenticated(true)
 	}, [])
 
 	const [value, setValue] = useState("theman")
+
+	const [loading, setLoading] = useState(false)
+
+	let last = ""
 
 	if (!authenticated) {
 		return (
@@ -52,45 +60,73 @@ export default function Dashboard() {
 		)
 	} else {
 		return (
-			<div className="flex flex-col text-[14px] p-5 gap-2 flex-grow">
-				<div className="flex gap-1">
+			<div className="flex flex-col text-[14px] py-5 gap-2 flex-grow h-0">
+				<div className="flex gap-1 px-5 items-center">
 					<SimpleButton onClick={fetchLogs}>Refresh</SimpleButton>
 					<SimpleButton
 						onClick={() => {
 							if (confirm("Are you sure")) {
-								deleteAllLogs()
+								logService.deleteAll()
 								fetchLogs()
 							}
 						}}
 					>
 						Delete All
 					</SimpleButton>
+					<div className="flex-grow"></div>
+					<div>{loading ? "Loading..." : null}</div>
 				</div>
-				<div className="flex flex-col gap-1 flex-grow">
+				<div className="flex flex-col gap-1 flex-grow overflow-y-scroll bg-gray-100 p-[5px]">
 					{logs.length < 1 ? (
 						<div className="flex items-center justify-center flex-grow">No Logs</div>
 					) : (
-						logs.map((doc) => {
-							const time = new Date(doc.payload.time)
+						logs.map((log) => {
+							if (log.ip === undefined || log.meta?.userAgent === undefined) {
+								return null
+							}
 
+							let separator = null
+
+							const current = `${log.ip} - ${log.meta?.userAgent.split("(")[1].split(")")[0]}`
+							if (current !== last) {
+								separator = <div className="p-5 text-gray-500 text-[10px] text-center">{current}</div>
+							}
+							last = current
+
+							const time = new Date(log.time!)
 							return (
-								<div className="border p-5 flex flex-col gap-2">
-									<div className="flex gap-2">
-										<div className="">
-											{time.getFullYear()}-{time.getMonth() + 1}-
-											{time.getDate()}
+								<>
+									{separator}
+									{/* <CollapseBox
+										hidden={
+											<pre className="text-[14px] font-RobotoMono p-2 bg-gray-800 text-white w-full overflow-auto">
+												{JSON.stringify(log, null, 4)}
+											</pre>
+										}
+									> */}
+									<div className="border p-2 flex flex-col bg-white">
+										<div className="flex gap-4 items-center">
+											<div className="flex-grow">{log.action}</div>
+											<div className="text-gray-500 flex gap-1 text-[12px]">
+												<div>
+													{time.getHours() < 10 ? 0 : null}
+													{time.getHours()}:{time.getMinutes() < 10 ? 0 : null}
+													{time.getMinutes()}
+												</div>
+												{/* <div>
+												{time.getFullYear()}-{time.getMonth() + 1}-{time.getDate()}
+											</div> */}
+											</div>
+											<button
+												className="bg-gray-200 w-[20px] h-[20px] flex items-center justify-center"
+												onClick={() => handleDelete(log._id!)}
+											>
+												&times;
+											</button>
 										</div>
-										<div>
-											{time.getHours()}:{time.getMinutes()}
-										</div>
-										<SimpleButton onClick={() => handleDelete(doc._id)}>
-											Delete
-										</SimpleButton>
 									</div>
-									<pre className="text-[14px] font-RobotoMono p-5 bg-gray-800 text-white rounded-md">
-										{JSON.stringify(doc.payload, null, 4)}
-									</pre>
-								</div>
+									{/* </CollapseBox> */}
+								</>
 							)
 						})
 					)}
@@ -98,4 +134,14 @@ export default function Dashboard() {
 			</div>
 		)
 	}
+}
+
+function CollapseBox(props: PropsWithChildren & { hidden: ReactNode }) {
+	const [open, setOpen] = useState(false)
+	return (
+		<div className="flex flex-col cursor-pointer" onClick={() => setOpen(!open)}>
+			{props.children}
+			{open ? <div className="flex flex-grow">{props.hidden}</div> : null}
+		</div>
+	)
 }

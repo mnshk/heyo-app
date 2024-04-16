@@ -1,31 +1,32 @@
-import { isRouteErrorResponse, useNavigate, useRouteError } from 'react-router-dom'
-import Container from '../common/Container'
+import { isRouteErrorResponse, useNavigate, useRouteError, useSearchParams } from "react-router-dom"
+import Container from "../common/Container"
 
 export default function ErrorPage() {
 	const error = useRouteError()
 	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
 
-	let statusText = 'Something went wrong'
-	let statusCode
+	let errorMessage = searchParams.get("errorMessage") ?? "Something went wrong"
+	let errorCode = searchParams.get("errorCode")
 
 	if (isRouteErrorResponse(error)) {
-		statusText = error.statusText
-		statusCode = error.status
+		errorMessage = error.statusText
+		errorCode = error.status.toString()
 	}
 
-	document.title = statusText
+	document.title = errorMessage
 
 	return (
-			<Container>
-				<div className='flex gap-2'>
-					<div>
-						{statusCode} {statusText}
-					</div>
-					<div>|</div>
-					<button onClick={() => navigate(-1)} className='link' title='Back'>
-						Back
-					</button>
+		<Container>
+			<div className="flex gap-2">
+				<div>
+					{errorCode} {errorMessage}
 				</div>
-			</Container>
+				<div>|</div>
+				<button onClick={() => navigate(-1)} className="link" title="Back">
+					Back
+				</button>
+			</div>
+		</Container>
 	)
 }

@@ -41,10 +41,7 @@ export function ButtonNeutral(props: CustomButtonProps) {
 
 export function SimpleButton(props: HTMLAttributes<HTMLButtonElement>) {
 	return (
-		<button
-			className="bg-gray-100 border p-[2px] px-[20px] text-[14px] hover:brightness-90 active:brightness-75"
-			{...props}
-		>
+		<button className="bg-gray-200 border border-gray-300 p-[2px] px-[20px] text-[14px] hover:brightness-90 active:brightness-75" {...props}>
 			{props.children}
 		</button>
 	)
