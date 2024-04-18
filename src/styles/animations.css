@@ -1,0 +1,53 @@
+.animate-page-in {
+	animation: page-in 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+@keyframes page-in {
+	0% {
+		transform: translateY(40px);
+		opacity: 0.1;
+	}
+}
+
+.animate-floating {
+	animation: floating 4s infinite ease-in-out;
+}
+@keyframes floating {
+	50% {
+		transform: translate(10px, 15px);
+	}
+}
+
+.animate-fade-in {
+	animation: fade-in 100ms ease-in;
+}
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+		transform: scale(1.05);
+	}
+}
+
+.animate-fade-out {
+	animation: fade-out 100ms forwards ease-out;
+}
+@keyframes fade-out {
+	100% {
+		opacity: 0;
+		transform: scale(1.05);
+	}
+}
+
+.animate-loading-slide {
+	animation: loading-slide 1s infinite ease-in-out;
+}
+
+@keyframes loading-slide {
+	0% {
+		/* margin-left: -100%; */
+		/* opacity: 0; */
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(200%);
+	}
+}

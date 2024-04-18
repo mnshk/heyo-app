@@ -1,4 +1,4 @@
-import { ILog } from "../interfaces/log"
+import { ILog } from "../types/log"
 
 const logService = {
 	async api(body: unknown) {

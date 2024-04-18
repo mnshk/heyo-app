@@ -1,0 +1,95 @@
+{
+	"do-you-know-me": {
+		"question": "Do you know me?",
+		"nextQuestion": "/question/usual-state-of-mind",
+		"options": [
+			{ "label": "Yeah, I know you really well!" },
+			{ "label": "I know you but not that much" },
+			{ "label": "Not yet but I'd be happy to know" },
+			{ "label": "I've just heard about you" }
+		]
+	},
+	"usual-state-of-mind": {
+		"question": "You usually stay?",
+		"nextQuestion": "/question/what-will-irritate-you-the-most",
+		"options": [{ "label": "Calm" }, { "label": "Angry" }, { "label": "Stressed out" }]
+	},
+	"what-will-irritate-you-the-most": {
+		"question": "What will irritate you the most?",
+		"nextQuestion": "/question/early-bird-or-night-owl",
+		"options": [
+			{ "label": "Insult or disrespect" },
+			{ "label": "Getting ignored or feeling unwanted" },
+			{ "label": "Lack of communication" },
+			{ "label": "Dishonesty, Lying or Cheating" }
+		]
+	},
+	"early-bird-or-night-owl": {
+		"question": "Are you an early bird or a night owl?",
+		"nextQuestion": "/question/how-often-you-like-to-go-out-for-food",
+		"options": [
+			{ "label": "I sleep early and wake up early" },
+			{ "label": "Sometimes I sleep early sometimes late" },
+			{ "label": "I'm most active during the night, can't sleep till its 2AM" }
+		]
+	},
+	"how-often-you-like-to-go-out-for-food": {
+		"question": "How often do you like to go out for casual food at restaurants or cafes?",
+		"sensitive": true,
+		"nextQuestion": "/question/how-often-you-like-to-go-shopping",
+		"options": [
+			{ "label": "I rarely eat out for casual food, I prefer home cooked" },
+			{ "label": "Almost everyday, for lunch or a quick bite" },
+			{ "label": "Just on special occasions is enough for me" },
+			{ "label": "I like to eat out atleast once a month" }
+		]
+	},
+	"how-often-you-like-to-go-shopping": {
+		"question": "How often do you like to go shopping?",
+		"nextQuestion": "/question/how-often-you-go-for-parties",
+		"options": [
+			{ "label": "Almost every week" },
+			{ "label": "Maybe once a month" },
+			{ "label": "Few times a year" },
+			{ "label": "Just on special occasions is enough for me" }
+		]
+	},
+	"how-often-you-go-for-parties": {
+		"question": "How often do you go out for parties?",
+		"nextQuestion": "/question/most-important-quality-in-friend",
+		"options": [
+			{ "label": "Rarely or never. I'm not a party person" },
+			{ "label": "Just on special occasions" },
+			{ "label": "A few times a month" },
+			{ "label": "Multiple times a week" }
+		]
+	},
+	"most-important-quality-in-friend": {
+		"question": "What is the most important quality you look for in a friend or partner?",
+		"nextQuestion": "/question/disagreement-with-partner",
+		"options": [
+			{ "label": "Intelligence and presence of mind" },
+			{ "label": "Looks and social status" },
+			{ "label": "Honesty and Trust" },
+			{ "label": "Having common values and interests" }
+		]
+	},
+	"disagreement-with-partner": {
+		"question": "If you disagree with your partner or friend, then",
+		"nextQuestion": "/question/",
+		"options": [
+			{ "label": "If I'm right I will prove my point, no matter if it hurts him" },
+			{ "label": "I will try to prove my point but its not more important than his feelings" },
+			{ "label": "Proving my point isn't important in a disagreement" }
+		]
+	},
+	"disagreement-with-partner": {
+		"question": "If you disagree with your partner or friend, then",
+		"nextQuestion": "/question/",
+		"options": [
+			{ "label": "If I'm right I will prove my point, no matter if it hurts him" },
+			{ "label": "I will try to prove my point but its not more important than his feelings" },
+			{ "label": "Proving my point isn't important in a disagreement" }
+		]
+	}
+}

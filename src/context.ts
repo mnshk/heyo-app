@@ -2,9 +2,9 @@ import { Context, createContext, Dispatch, SetStateAction } from "react"
 
 export type ILoading = {
 	isLoading: boolean
-	to?: string
-	random?: boolean
+	to: string
 	delay?: "short" | "medium" | "long"
+	callback?: (to: string) => void
 }
 
 export type RootContextProps = {
@@ -16,6 +16,10 @@ export type RootContextProps = {
 	setPreferredName: Dispatch<SetStateAction<string>>
 	loading: ILoading
 	setLoading: Dispatch<SetStateAction<ILoading>>
+	progress: number
+	setProgress: Dispatch<SetStateAction<number>>
+	hideSensitiveContentWarning: boolean
+	setHideSensitiveContentWarning: Dispatch<SetStateAction<boolean>>
 }
 
 const RootContext: Context<RootContextProps> = createContext({

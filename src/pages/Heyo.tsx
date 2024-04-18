@@ -1,28 +1,28 @@
 import { useContext } from "react"
-import { ButtonDeny, ButtonNeutral } from "../common/Buttons"
-import View, { ViewAction, ViewHeading, ViewMain } from "../common/View"
+import { ButtonDeny, ButtonNeutral } from "../common/ui/buttons/Buttons"
+import View, { ViewAction, ViewHeading, ViewMain } from "../common/ui/containers/view/View"
 import RootContext from "../context"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import Footer from "../common/Footer"
 
 export default function Heyo() {
 	const { subject, setLoading } = useContext(RootContext)
 	const navigate = useNavigate()
-	const [searchParams] = useSearchParams()
 
 	return (
 		<View>
 			<ViewMain>
 				<ViewHeading>Heyo {subject}!</ViewHeading>
-				<div className="font-semibold">Break the ice if there's a spark</div>
-				<div>Well, if you are here that means you know me! or I know you.</div>
-				<div>There are some uncertainties yet to be explored.</div>
+				<div>If you are here that means you know me! or I know you.</div>
+				<div>Would you like to deep dive and explore the uncertainties? Things that are yet to be explored.</div>
+				{/* <div className="font-semibold">Break the ice if there's a spark</div> */}
 			</ViewMain>
 			<ViewAction>
 				<ButtonNeutral
 					onClick={() =>
 						setLoading({
 							isLoading: true,
-							to: "/name",
+							to: "question/do-you-know-me",
 						})
 					}
 				>
@@ -30,7 +30,7 @@ export default function Heyo() {
 				</ButtonNeutral>
 				<ButtonDeny onClick={() => navigate("/goodbye")}>No! leave me alone</ButtonDeny>
 			</ViewAction>
-			<div>{searchParams.get("key")}</div>
+			<Footer />
 		</View>
 	)
 }

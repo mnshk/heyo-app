@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import RootContext from "../context"
+import RootContext from "../../context"
 
 export default function Login() {
 	const { setIsAuthenticated } = useContext(RootContext)

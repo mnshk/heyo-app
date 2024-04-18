@@ -1,5 +1,5 @@
 import { isRouteErrorResponse, useNavigate, useRouteError, useSearchParams } from "react-router-dom"
-import Container from "../common/Container"
+import Container from "../../common/ui/containers/Container"
 
 export default function ErrorPage() {
 	const error = useRouteError()

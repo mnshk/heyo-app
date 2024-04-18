@@ -1,7 +1,7 @@
-import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
-import { SimpleButton } from "../common/Buttons"
+import { PropsWithChildren, useEffect, useState } from "react"
+import { SimpleButton } from "../common/ui/buttons/Buttons"
 import logService from "../utils/logService"
-import { ILog } from "../interfaces/log"
+import { ILog } from "../types/log"
 
 export default function Dashboard() {
 	const [logs, setLogs] = useState<ILog[]>([])
@@ -9,6 +9,8 @@ export default function Dashboard() {
 	const [authenticated, setAuthenticated] = useState(false)
 
 	async function fetchLogs() {
+		if (document.visibilityState === "hidden") return
+
 		setLoading(true)
 		const data = await logService.get()
 		setLoading(false)
@@ -27,6 +29,11 @@ export default function Dashboard() {
 	useEffect(() => {
 		fetchLogs()
 		setAuthenticated(true)
+
+		addEventListener("visibilitychange", fetchLogs)
+		return () => {
+			removeEventListener("visibilitychange", fetchLogs)
+		}
 	}, [])
 
 	const [value, setValue] = useState("theman")
@@ -90,11 +97,21 @@ export default function Dashboard() {
 
 							const current = `${log.ip} - ${log.meta?.userAgent.split("(")[1].split(")")[0]}`
 							if (current !== last) {
-								separator = <div className="p-5 text-gray-500 text-[10px] text-center">{current}</div>
+								separator = <Separator>{current}</Separator>
 							}
 							last = current
 
 							const time = new Date(log.time!)
+
+							if (log.action === "Rendering") {
+								return (
+									<>
+										{separator}
+										<Separator>{log.element.label}</Separator>
+									</>
+								)
+							}
+
 							return (
 								<>
 									{separator}
@@ -107,8 +124,10 @@ export default function Dashboard() {
 									> */}
 									<div className="border p-2 flex flex-col bg-white">
 										<div className="flex gap-4 items-center">
-											<div className="flex-grow">
-												{log.action} {log.element.label} {log.element.type}
+											<div className="flex-grow flex items-center gap-1">
+												<span className="">{log.action}</span>
+												<span className="bg-orange-100 px-1">{log.element.label}</span>
+												<span className="">{log.element.type}</span>
 											</div>
 											<div className="text-gray-500 flex gap-1 text-[12px]">
 												<div>
@@ -148,3 +167,7 @@ export default function Dashboard() {
 // 		</div>
 // 	)
 // }
+
+export function Separator(props: PropsWithChildren) {
+	return <div className="p-2 text-gray-500 text-[10px] text-center">{props.children}</div>
+}

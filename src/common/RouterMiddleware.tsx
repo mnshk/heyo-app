@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom"
 import logService from "../utils/logService"
-import Thinking from "../pages/Thinking"
+import Thinking from "../pages/helpers/Thinking"
 import { useEffect, useRef } from "react"
 import fetchIP from "../utils/fetchIP"
 import { clickLogger, visibilityLogger } from "../utils/loggers"
@@ -34,7 +34,7 @@ export default function RouteMiddleware() {
 	})
 
 	return (
-		<div className="flex flex-grow" ref={middleware}>
+		<div className="flex flex-grow h-full" ref={middleware}>
 			<Outlet />
 			<Thinking />
 		</div>
