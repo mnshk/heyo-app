@@ -1,0 +1,32 @@
+{
+	"name": "Heyo",
+	"short_name": "Heyo",
+	"id": "/?source=pwa",
+	"start_url": "/?source=pwa",
+	"scope": "/",
+	"display": "standalone",
+	"background_color": "#fff",
+	"theme_color": "#000",
+	"icons": [
+		{
+			"src": "icon-256.png",
+			"sizes": "256x256",
+			"type": "image/png"
+		}
+	],
+	"description": "Explore the uncertainties",
+	"screenshots": [
+		{
+			"src": "images/screenshot-1-800x1716.png",
+			"type": "image/png",
+			"sizes": "800x1716",
+			"form_factor": "narrow"
+		},
+		{
+			"src": "images/screenshot-1-1920x1079.png",
+			"type": "image/png",
+			"sizes": "1920x1079",
+			"form_factor": "wide"
+		}
+	]
+}
