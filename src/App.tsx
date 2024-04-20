@@ -1,29 +1,38 @@
 import { useState } from "react"
-import { RouterProvider } from "react-router-dom"
+import AppRouter from "./AppRouter"
 import RootContext from "./RootContext"
-import router from "./router"
-import { LoadingProps } from "./types/Loading"
+import { ILoading } from "./types/Loading"
+import { IAuth, ISettings } from "./types/RootContext"
 
 export default function App() {
-	const [subject, setSubject] = useState("Subject")
-	const [progress, setProgress] = useState(0)
-	const [hideSensitiveContentWarning, setHideSensitiveContentWarning] = useState(false)
-	const [loading, setLoading] = useState<LoadingProps>({ isLoading: false })
+	const [auth, setAuth] = useState<IAuth>({
+		isAuthenticated: false,
+		sessionToken: null,
+		subject: null,
+		networkAddress: null,
+	})
+	const [settings, setSettings] = useState<ISettings>({
+		hideSensitiveContentWarning: false,
+	})
+	const [loading, setLoading] = useState<ILoading>({
+		isLoading: false,
+	})
+	const [progress, setProgress] = useState<number>(0)
 
 	return (
 		<RootContext.Provider
 			value={{
-				subject,
-				setSubject,
+				auth,
+				setAuth,
+				settings,
+				setSettings,
 				loading,
 				setLoading,
 				progress,
 				setProgress,
-				hideSensitiveContentWarning,
-				setHideSensitiveContentWarning,
 			}}
 		>
-			<RouterProvider router={router} />
+			<AppRouter />
 		</RootContext.Provider>
 	)
 }

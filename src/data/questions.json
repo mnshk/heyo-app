@@ -82,14 +82,5 @@
 			{ "label": "I will try to prove my point but its not more important than his feelings" },
 			{ "label": "Proving my point isn't important in a disagreement" }
 		]
-	},
-	"disagreement-with-partner": {
-		"question": "If you disagree with your partner or friend, then",
-		"nextQuestion": "/question/",
-		"options": [
-			{ "label": "If I'm right I will prove my point, no matter if it hurts him" },
-			{ "label": "I will try to prove my point but its not more important than his feelings" },
-			{ "label": "Proving my point isn't important in a disagreement" }
-		]
 	}
 }

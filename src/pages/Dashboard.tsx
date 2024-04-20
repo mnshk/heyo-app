@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect, useState } from "react"
 import { SimpleButton } from "../common/ui/buttons/Buttons"
 import logService from "../utils/logService"
-import { ILog } from "../types/log"
+import { ILog } from "../types/Log"
 
 export default function Dashboard() {
 	const [logs, setLogs] = useState<ILog[]>([])

@@ -1,20 +1,24 @@
 import { Dispatch, SetStateAction } from "react"
-import { LoadingProps } from "./Loading"
+import { ILoading } from "./Loading"
 
-export type RootContextProps = {
-	// Subject
-	subject: string
-	setSubject: Dispatch<SetStateAction<string>>
+export type IAuth = {
+	isAuthenticated: boolean
+	sessionToken: string | null
+	subject: string | null
+	networkAddress: string | null
+}
 
-	// Loading
-	loading: LoadingProps
-	setLoading: Dispatch<SetStateAction<LoadingProps>>
+export type ISettings = {
+	hideSensitiveContentWarning: boolean
+}
 
-	// Progress
+export type IRootContext = {
+	auth: IAuth
+	setAuth: Dispatch<SetStateAction<IAuth>>
+	loading: ILoading
+	setLoading: Dispatch<SetStateAction<ILoading>>
 	progress: number
 	setProgress: Dispatch<SetStateAction<number>>
-
-	// Sensitive content
-	hideSensitiveContentWarning: boolean
-	setHideSensitiveContentWarning: Dispatch<SetStateAction<boolean>>
+	settings: ISettings
+	setSettings: Dispatch<SetStateAction<ISettings>>
 }

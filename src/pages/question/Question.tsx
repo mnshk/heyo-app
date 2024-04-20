@@ -1,20 +1,20 @@
 import Popup, { PopupButton } from "@/common/ui/popup/Popup"
-import { TQuestions } from "@/types/Question"
+import { IQuestions } from "@/types/Question"
 import { useContext, useEffect, useState } from "react"
+import { MdInfoOutline } from "react-icons/md"
 import { useNavigate, useParams } from "react-router-dom"
 import Footer from "../../common/Footer"
 import { ButtonDenySecondary, ButtonNeutral } from "../../common/ui/buttons/Buttons"
 import View, { ViewAction, ViewHeader, ViewHeading, ViewMain } from "../../common/ui/containers/view/View"
-import RootContext from "../../context"
 import _questions from "../../data/questions.json"
-import { MdInfoOutline } from "react-icons/md"
-const questions = _questions as TQuestions
+import RootContext from "../../RootContext"
+const questions = _questions as IQuestions
 
 export default function Question() {
 	const [wrapperLoadingClass, setWrapperLoadingClass] = useState("")
 	const [iDoNotCarePopupOpen, setIDoNotCarePopupOpen] = useState(false)
 	const [showSensitiveContent, setShowSensitiveContent] = useState(true)
-	const { loading, setLoading, progress, setProgress, hideSensitiveContentWarning, setHideSensitiveContentWarning } = useContext(RootContext)
+	const { loading, setLoading, progress, setProgress, settings, setSettings } = useContext(RootContext)
 	const { questionIdentifier } = useParams()
 	const navigate = useNavigate()
 
@@ -73,7 +73,7 @@ export default function Question() {
 								onClick={() => {
 									setLoading({
 										isLoading: true,
-										to: option.nextQuestion ?? current.nextQuestion!,
+										navigateTo: option.nextQuestion ?? current.nextQuestion!,
 									})
 									setProgress(progress + 10)
 								}}
@@ -100,7 +100,7 @@ export default function Question() {
 				</View>
 
 				<Popup
-					open={Boolean(current.sensitive) && !showSensitiveContent && !hideSensitiveContentWarning}
+					open={Boolean(current.sensitive) && !showSensitiveContent && !settings.hideSensitiveContentWarning}
 					title="Sensitive Question"
 					message="Next question might be inappropriate or offensive, you can skip this question if you want"
 					wrapperProps={{
@@ -108,13 +108,16 @@ export default function Question() {
 					}}
 					controls={
 						<>
-							<PopupButton onClick={() => setLoading({ isLoading: true, to: current.nextQuestion! })}>Skip</PopupButton>
+							<PopupButton onClick={() => setLoading({ isLoading: true, navigateTo: current.nextQuestion! })}>Skip</PopupButton>
 							<PopupButton
 								onClick={() => {
 									setShowSensitiveContent(true)
-									setHideSensitiveContentWarning(
-										(document.getElementById("input-hide-sensitive-content-warning-permanently") as HTMLInputElement).checked
-									)
+									setSettings((prev) => ({
+										...prev,
+										hideSensitiveContentWarning: (
+											document.getElementById("input-hide-sensitive-content-warning-permanently") as HTMLInputElement
+										).checked,
+									}))
 								}}
 							>
 								Continue

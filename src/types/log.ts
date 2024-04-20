@@ -1,4 +1,4 @@
-export type Log = {
+export type ILog = {
 	_id: string
 	createdAt: number
 	subject: string

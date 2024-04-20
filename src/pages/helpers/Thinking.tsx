@@ -1,10 +1,9 @@
 import imageThinking from "@/assets/media/hmm-thinking.gif"
 import Popup from "@/common/ui/popup/Popup"
+import getRandomInt from "@/utils/getRandomInt"
 import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import RootContext from "../../context"
-import logService from "../../utils/logService"
-import getRandomInt from "@/utils/getRandomInt"
+import RootContext from "../../RootContext"
 
 export type delays = "short" | "medium" | "long"
 
@@ -24,13 +23,18 @@ export default function Thinking() {
 			const time = getRandomInt(delay[0], delay[1])
 
 			const timeout = setTimeout(() => {
-				loading.callback ? loading.callback(loading.to) : navigate(loading.to)
-				setLoading({ isLoading: false, to: "" })
-				logService.send({
-					action: "Loading",
-					element: { type: time.toString(), label: loading.to },
-				})
-			}, time)
+				if (loading.callback) {
+					loading.callback()
+				}
+				if (loading.navigateTo) {
+					navigate(loading.navigateTo)
+				}
+				setLoading({ isLoading: false })
+				// logService.send({
+				// 	action: "Loading",
+				// 	element: { type: time.toString(), label: loading.to },
+				// })
+			}, 500 ?? time)
 
 			return () => {
 				clearTimeout(timeout)

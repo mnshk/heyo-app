@@ -1,6 +1,6 @@
 import { Context, createContext } from "react"
-import { RootContextProps } from "./types/RootContext"
+import { IRootContext } from "./types/RootContext"
 
-const RootContext: Context<RootContextProps> = createContext({} as RootContextProps)
+const RootContext: Context<IRootContext> = createContext({} as IRootContext)
 
 export default RootContext

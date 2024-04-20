@@ -1,14 +1,13 @@
-import { Outlet, useLocation } from "react-router-dom"
-import logService from "../utils/logService"
-import Thinking from "../pages/helpers/Thinking"
 import { useEffect, useRef } from "react"
-import fetchIP from "../utils/fetchIP"
+import { Outlet } from "react-router-dom"
+import Thinking from "../pages/helpers/Thinking"
+import getNetworkAddress from "../utils/getNetworkAddress"
 import { clickLogger, visibilityLogger } from "../utils/loggers"
 
 export default function RouteMiddleware() {
 	const middleware = useRef<HTMLDivElement>(null)
-	const location = useLocation()
-	fetchIP()
+	// const location = useLocation()
+	getNetworkAddress()
 
 	useEffect(() => {
 		const wrapper = middleware.current
@@ -23,15 +22,15 @@ export default function RouteMiddleware() {
 		}
 	}, [])
 
-	useEffect(() => {
-		logService.send({
-			action: "Rendering",
-			element: {
-				type: "",
-				label: location.pathname,
-			},
-		})
-	})
+	// useEffect(() => {
+	// 	logService.send({
+	// 		action: "Rendering",
+	// 		element: {
+	// 			type: "",
+	// 			label: location.pathname,
+	// 		},
+	// 	})
+	// })
 
 	return (
 		<div className="flex flex-grow h-full" ref={middleware}>
