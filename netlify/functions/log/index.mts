@@ -1,4 +1,4 @@
-import type { Handler } from "@netlify/functions"
+import type { Context } from "@netlify/functions"
 import { MongoClient, ObjectId, WithId } from "mongodb"
 
 type IRequestBody = {
@@ -9,7 +9,7 @@ type IRequestBody = {
 }
 const DEFAULT_ERROR_MESSAGE = "Something went wrong. Please try again later."
 
-export const handler: Handler = async (event) => {
+export default async (req: Request, context: Context) => {
 	const response = {
 		body: {
 			error: {
@@ -28,11 +28,12 @@ export const handler: Handler = async (event) => {
 		if (DB_URI === undefined) {
 			throw new Error("DB_URI_UNDEFINED")
 		}
-		if (event.body === undefined || event.body === null) {
+
+		if (req.body === undefined || req.body === null) {
 			throw new Error("NO_BODY")
 		}
 
-		const requestBody: IRequestBody = await JSON.parse(event.body)
+		const requestBody: IRequestBody = await req.json()
 		const client = new MongoClient(DB_URI)
 		const db = client.db("heyo")
 		const collection = db.collection("logs")
@@ -66,7 +67,7 @@ export const handler: Handler = async (event) => {
 					break
 				}
 				case "test": {
-					response.body.payload = event
+					response.body.payload = { requestBody, context }
 					break
 				}
 				default: {
@@ -79,16 +80,14 @@ export const handler: Handler = async (event) => {
 	} catch (e) {
 		if (e instanceof Error) {
 			response.body.error.errorCode = e.message
+			response.body.payload = { req, context }
 		}
 		response.body.error.hasError = true
 		response.body.error.errorMessage = DEFAULT_ERROR_MESSAGE
 		response.statusCode = 400
 	}
-	return {
-		headers: {
-			"content-type": "application/json",
-		},
-		body: JSON.stringify(response.body),
-		statusCode: response.statusCode,
-	}
+	return new Response(JSON.stringify(response.body), {
+		headers: [["Content-Type", "application/json"]],
+		status: response.statusCode,
+	})
 }
