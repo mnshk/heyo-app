@@ -1,15 +1,15 @@
-export type TQuestionOption = {
+export type QuestionOption = {
 	label: string
 	nextQuestion?: string
 }
 
-export type TQuestion = {
+export type Question = {
 	question: string
 	sensitive?: boolean
 	nextQuestion?: string
-	options: TQuestionOption[]
+	options: QuestionOption[]
 }
 
-export type TQuestions = {
-	[key: string]: TQuestion
+export type Questions = {
+	[key: string]: Question
 }

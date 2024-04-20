@@ -1,22 +1,18 @@
-export type ILog = {
-	_id?: string
-	action: string
-	element: {
-		type: string
-		label: string
+export type Log = {
+	_id: string
+	createdAt: number
+	subject: string
+	networkAddress: string
+	device: string
+	screenSize: [number, number]
+	sessionToken: string
+	path: string
+	action: {
+		name: "clicked" | "navigated" | "focus" | "dialog" | "input"
+		target: {
+			label: string
+			type: string
+			value?: string[]
+		}
 	}
-	location?: {
-		origin: string
-		pathname: string
-		search: string
-		hash: string
-	}
-	time?: number
-	ip?: string
-	meta?: {
-		innerHeight: number
-		innerWidth: number
-		userAgent: string
-	}
-	insertedAt?: string
 }
