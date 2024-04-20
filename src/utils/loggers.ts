@@ -1,4 +1,4 @@
-import logService from "./logService"
+import logService from "../services/log/logService"
 
 export function clickLogger(e: MouseEvent) {
 	const target = e.target as HTMLElement

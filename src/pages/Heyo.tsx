@@ -1,9 +1,9 @@
 import { useContext } from "react"
-import { ButtonDeny, ButtonNeutral } from "../common/ui/buttons/Buttons"
-import View, { ViewAction, ViewHeading, ViewMain } from "../common/ui/containers/view/View"
-import RootContext from "../RootContext"
+import { ButtonDeny, ButtonNeutral } from "../components/common/buttons/Buttons"
+import View, { ViewAction, ViewHeading, ViewMain } from "../components/common/containers/View"
+import RootContext from "../context/root"
 import { useNavigate } from "react-router-dom"
-import Footer from "../common/Footer"
+import Footer from "../components/Footer"
 
 export default function Heyo() {
 	const { auth, setLoading } = useContext(RootContext)

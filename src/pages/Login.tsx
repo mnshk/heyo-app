@@ -1,7 +1,7 @@
 import getNetworkAddress from "@/utils/getNetworkAddress"
 import { useContext, useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import RootContext from "../../RootContext"
+import RootContext from "../context/root"
 
 export default function Login() {
 	const { setAuth } = useContext(RootContext)

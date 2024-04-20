@@ -1,4 +1,4 @@
-import RootContext from "@/RootContext"
+import RootContext from "@/context/root"
 import { useContext } from "react"
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 

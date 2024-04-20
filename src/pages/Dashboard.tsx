@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from "react"
-import { SimpleButton } from "../common/ui/buttons/Buttons"
-import logService from "../utils/logService"
+import { SimpleButton } from "../components/common/buttons/Buttons"
+import logService from "../services/log/logService"
 import { ILog } from "../types/Log"
 
 export default function Dashboard() {

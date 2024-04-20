@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
-import View, { ViewMain } from "../common/ui/containers/view/View"
-import RootContext from "../RootContext"
+import View, { ViewMain } from "../components/common/containers/View"
+import RootContext from "../context/root"
 
 export default function Goodbye() {
 	const { setAuth } = useContext(RootContext)

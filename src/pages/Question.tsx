@@ -1,13 +1,13 @@
-import Popup, { PopupButton } from "@/common/ui/popup/Popup"
+import Popup, { PopupButton } from "@/components/common/popup/Popup"
 import { IQuestions } from "@/types/Question"
 import { useContext, useEffect, useState } from "react"
 import { MdInfoOutline } from "react-icons/md"
 import { useNavigate, useParams } from "react-router-dom"
-import Footer from "../../common/Footer"
-import { ButtonDenySecondary, ButtonNeutral } from "../../common/ui/buttons/Buttons"
-import View, { ViewAction, ViewHeader, ViewHeading, ViewMain } from "../../common/ui/containers/view/View"
-import _questions from "../../data/questions.json"
-import RootContext from "../../RootContext"
+import Footer from "../components/Footer"
+import { ButtonDenySecondary, ButtonNeutral } from "../components/common/buttons/Buttons"
+import View, { ViewAction, ViewHeader, ViewHeading, ViewMain } from "../components/common/containers/View"
+import _questions from "../data/questions.json"
+import RootContext from "../context/root"
 const questions = _questions as IQuestions
 
 export default function Question() {

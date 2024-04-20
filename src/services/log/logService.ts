@@ -1,4 +1,4 @@
-import { ILog } from "../types/Log"
+import { ILog } from "../../types/Log"
 
 const logService = {
 	async api(body: unknown) {

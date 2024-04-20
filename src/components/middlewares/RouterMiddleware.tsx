@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react"
 import { Outlet } from "react-router-dom"
-import Thinking from "../pages/helpers/Thinking"
-import getNetworkAddress from "../utils/getNetworkAddress"
-import { clickLogger, visibilityLogger } from "../utils/loggers"
+import Thinking from "../Thinking"
+import getNetworkAddress from "../../utils/getNetworkAddress"
+import { clickLogger, visibilityLogger } from "../../utils/loggers"
 
 export default function RouteMiddleware() {
 	const middleware = useRef<HTMLDivElement>(null)

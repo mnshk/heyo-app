@@ -1,4 +1,4 @@
-import { Input } from "@/common/ui/inputs/Input"
+import { Input } from "@/components/common/inputs/Input"
 import { InputHTMLAttributes } from "react"
 
 // Array to store phrases typed earlier

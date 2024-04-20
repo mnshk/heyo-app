@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react"
-import { ILoading } from "./Loading"
+import { ILoading } from "../../../types/Loading"
 
 export type IAuth = {
 	isAuthenticated: boolean
@@ -12,7 +12,7 @@ export type ISettings = {
 	hideSensitiveContentWarning: boolean
 }
 
-export type IRootContext = {
+type IRootContext = {
 	auth: IAuth
 	setAuth: Dispatch<SetStateAction<IAuth>>
 	loading: ILoading
@@ -22,3 +22,5 @@ export type IRootContext = {
 	settings: ISettings
 	setSettings: Dispatch<SetStateAction<ISettings>>
 }
+
+export default IRootContext

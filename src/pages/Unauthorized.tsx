@@ -1,4 +1,4 @@
-import View, { ViewHeading, ViewMain } from "../../common/ui/containers/view/View"
+import View, { ViewHeading, ViewMain } from "../components/common/containers/View"
 
 export default function Unauthorized() {
 	return (

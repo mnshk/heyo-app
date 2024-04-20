@@ -1,9 +1,9 @@
 import imageThinking from "@/assets/media/hmm-thinking.gif"
-import Popup from "@/common/ui/popup/Popup"
+import Popup from "@/components/common/popup/Popup"
 import getRandomInt from "@/utils/getRandomInt"
 import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import RootContext from "../../RootContext"
+import RootContext from "../context/root"
 
 export type delays = "short" | "medium" | "long"
 
