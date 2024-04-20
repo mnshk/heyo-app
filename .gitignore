@@ -27,7 +27,7 @@ dist-ssr
 .netlify
 
 #env
-.env
-!.env.sample
+.env*
+!.env.example
 
 TODO.*
