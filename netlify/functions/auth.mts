@@ -139,6 +139,7 @@ export default async function (req: Request) {
 				}
 			} catch (e) {
 				responseOptions.status = 500
+				console.log(e)
 				if (e instanceof Error && e.name === "SyntaxError") {
 					responseOptions.status = 400
 				}
