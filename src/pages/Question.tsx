@@ -48,7 +48,7 @@ export default function Question() {
 									sessionStorage.setItem("lastQuestion", next)
 									setTimeout(() => {
 										navigate("/question/" + next, {
-											replace: false,
+											replace: true,
 										})
 									}, 300)
 								}}
