@@ -27,7 +27,7 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		fetchLogs()
-		setAuthenticated(true)
+		// setAuthenticated(true)
 
 		addEventListener("visibilitychange", fetchLogs)
 		return () => {
@@ -35,7 +35,7 @@ export default function Dashboard() {
 		}
 	}, [])
 
-	const [value, setValue] = useState("theman")
+	const [value, setValue] = useState("")
 
 	const [loading, setLoading] = useState(false)
 
