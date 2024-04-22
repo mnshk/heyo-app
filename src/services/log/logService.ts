@@ -1,4 +1,4 @@
-import { ILog, ILogAction } from "@/types/Log.ts"
+import { ILog, ILogAction } from "@/types/ILog"
 
 type ILogRequestBody = {
 	action: "create" | "read" | "delete"
