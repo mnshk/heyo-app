@@ -17,13 +17,13 @@ body {
 	@apply flex flex-col;
 	@apply w-full h-screen;
 	@apply bg-white;
-	@apply overflow-hidden;
 	height: -webkit-fill-available;
 }
 
 #root {
 	@apply flex flex-col flex-grow;
 	@apply h-full;
+	@apply overflow-hidden;
 }
 
 a,

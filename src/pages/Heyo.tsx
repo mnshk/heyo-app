@@ -43,7 +43,7 @@ export default function Heyo() {
 						<PopupButton
 							onClick={() => {
 								sessionStorage.removeItem("lastQuestion")
-								navigate("/")
+								navigate("/goodbye")
 							}}
 						>
 							No exit

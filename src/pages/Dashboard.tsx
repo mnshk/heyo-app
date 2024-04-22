@@ -1,23 +1,29 @@
-import { PropsWithChildren, useEffect, useState } from "react"
-import { SimpleButton } from "../components/common/buttons/Buttons"
-import logService from "../services/log/logService"
 import { ILog } from "@/types/ILog"
+import { ButtonHTMLAttributes, InputHTMLAttributes, PropsWithChildren, ReactNode, useEffect, useState } from "react"
+import logService from "../services/log/logService"
+import { MdDeleteOutline } from "react-icons/md"
 
 export default function Dashboard() {
 	const [logs, setLogs] = useState<ILog[]>([])
-
+	const [loading, setLoading] = useState(false)
 	const [authenticated, setAuthenticated] = useState(false)
+	const [inputUsername, setInputUsername] = useState("")
+	const [inputPassword, setInputPassword] = useState("")
+	const [error, setError] = useState("")
+	let lastNetworkAddress = ""
+	let lastDevice = ""
+	let lastSessionToken = ""
+	let isHidden = false
+	let lastHiddenOn = -1
+	let lastDate = ""
 
 	async function fetchLogs() {
 		if (document.visibilityState === "hidden") return
 		setLoading(true)
 		const data = await logService.get()
 		setLoading(false)
-		if (!data) {
-			console.log("Error", data)
-			return
-		}
-		setLogs(data as ILog[])
+		if (data === undefined) setError("Unable to fetch logs.")
+		else setLogs(data as ILog[])
 	}
 
 	function handleDelete(id: string | undefined) {
@@ -25,9 +31,15 @@ export default function Dashboard() {
 		logService.delete("_id", id!)
 	}
 
+	const tokenFromLocalStorage = localStorage.getItem("dashboardToken")
+	const tokenFromEnv = import.meta.env.VITE_DASHBOARD_KEY
+
 	useEffect(() => {
 		fetchLogs()
-		// setAuthenticated(true)
+
+		if (tokenFromLocalStorage !== null && tokenFromEnv !== undefined && tokenFromEnv === tokenFromLocalStorage) {
+			setAuthenticated(true)
+		}
 
 		addEventListener("visibilitychange", fetchLogs)
 		return () => {
@@ -35,42 +47,40 @@ export default function Dashboard() {
 		}
 	}, [])
 
-	const [value, setValue] = useState("")
-
-	const [loading, setLoading] = useState(false)
-
-	// let last = ""
+	if (tokenFromEnv === undefined) {
+		return <div className="bg-gray-900 flex-grow flex items-center justify-center text-white">Internal Application Error</div>
+	}
 
 	if (!authenticated) {
 		return (
-			<div className="flex flex-col flex-grow p-10 gap-2 justify-center items-center">
-				<div className="border border-gray-300 w-[300px] flex">
-					<input
-						className="p-[1px] px-[6px] outline-none text-[14px] flex-grow"
-						value={value}
-						onChange={(e) => setValue(e.target.value)}
-						placeholder="Type here"
-						type="password"
-					/>
-					<SimpleButton
+			<div className="flex flex-col flex-grow p-10 gap-2 justify-center items-center bg-gray-900">
+				<div className="p-10 bg-gray-800 border border-gray-700 rounded-md flex flex-col gap-2 shadow-xl w-full max-w-[350px]">
+					<div className="text-white pb-5 text-center text-[20px]">Login</div>
+					<Input value={inputUsername} onChange={(e) => setInputUsername(e.target.value)} placeholder="Username" type="text" />
+					<Input value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} placeholder="Password" type="password" />
+					<Button
 						onClick={() => {
-							if (value === import.meta.env.VITE_DASHBOARD_KEY) {
+							if (inputPassword === tokenFromEnv && inputUsername === "admin") {
+								localStorage.setItem("dashboardToken", tokenFromEnv)
 								setAuthenticated(true)
 							}
-							setValue("")
+							setInputPassword("")
+							setInputUsername("")
 						}}
 					>
 						Next
-					</SimpleButton>
+					</Button>
 				</div>
 			</div>
 		)
 	} else {
 		return (
-			<div className="flex flex-col text-[14px] py-5 gap-2 flex-grow h-0">
-				<div className="flex gap-1 px-5 items-center">
-					<SimpleButton onClick={fetchLogs}>Refresh</SimpleButton>
-					<SimpleButton
+			<div className="flex flex-col text-[14px] text-white flex-grow h-0 bg-gray-800 px-1 py-5 gap-3">
+				<div className="flex gap-2 py-5 items-center px-2">
+					<div className="flex-grow text-[20px] font-bold">Dashboard</div>
+					<Highlighted>{loading ? "Loading..." : null}</Highlighted>
+					<Button onClick={fetchLogs}>Refresh</Button>
+					<Button
 						onClick={async () => {
 							if (confirm("Are you sure")) {
 								await logService.delete("", "*")
@@ -79,136 +89,175 @@ export default function Dashboard() {
 						}}
 					>
 						Delete All
-					</SimpleButton>
-					<div className="flex-grow"></div>
-					<div>{loading ? "Loading..." : null}</div>
+					</Button>
+					<Button
+						onClick={() => {
+							localStorage.clear()
+							window.location.reload()
+						}}
+					>
+						Logout
+					</Button>
 				</div>
-				<div className="flex flex-col gap-1 flex-grow overflow-y-scroll bg-gray-100 p-[5px]">
+				{error ? (
+					<div className="text-red-300 p-2 flex">
+						<Highlighted color="bg-red-400">Error: {error}</Highlighted>
+					</div>
+				) : null}
+
+				<div className="flex flex-col gap-1 flex-grow overflow-y-auto border rounded-md border-gray-700 p-2">
 					{logs.length < 1 ? (
 						<div className="flex items-center justify-center flex-grow">No Logs</div>
 					) : (
-						logs.map((log) => {
-							if (log.action.name === "focus" || log.action.name === "navigated") {
-								return (
-									<div className="text-[11px] flex text-center p-2">
-										<div className="flex-grow">
-											{log.action.name} {log.action.target.label}
-										</div>
-										<div>
-											<button onClick={() => handleDelete(log._id)}>Delete</button>
-										</div>
-									</div>
+						logs.map(({ _id, subject, networkAddress, device, sessionToken, action, createdAt }) => {
+							const out: ReactNode[] = []
+
+							if (networkAddress !== null && networkAddress.trim() !== lastNetworkAddress) {
+								lastNetworkAddress = networkAddress
+								out.push(<MutedContainer color="bg-red-200 text-black">{networkAddress}</MutedContainer>)
+							}
+							if (device !== null && device.trim() !== lastDevice) {
+								lastDevice = device
+								out.push(<MutedContainer color="bg-red-200 text-black">{device.split("(")[1].split(")")[0]}</MutedContainer>)
+							}
+							if (sessionToken !== null && sessionToken.trim() !== lastSessionToken) {
+								lastSessionToken = sessionToken
+								out.push(
+									<MutedContainer color="bg-red-200 text-black">
+										{subject} ({sessionToken})
+									</MutedContainer>
 								)
 							}
 
-							return (
-								<div className="flex bg-white items-center border p-2">
-									<div className="flex-grow">
-										{log.subject} {log.action.name} {log.action.target.label} {log.action.target.type}
+							if (["navigated", "dialog"].includes(action.name)) {
+								out.push(
+									<MutedContainer color="bg-gray-400 text-black">
+										{action.name} {action.target.label}
+									</MutedContainer>
+								)
+							}
+
+							if (action.name === "focus") {
+								if (action.target.label === "hidden") {
+									isHidden = true
+									lastHiddenOn = createdAt
+								} else if (action.target.label === "visible") {
+									isHidden = false
+								}
+
+								if (lastHiddenOn !== -1 && isHidden === false) {
+									const temp = lastHiddenOn
+									lastHiddenOn = -1
+									out.push(
+										<MutedContainer color="text-black bg-gray-400">
+											Paused for {((createdAt - temp) / 1000).toFixed()}s
+										</MutedContainer>
+									)
+								}
+							}
+
+							if (
+								!["navigated", "focus", "dialog"].includes(action.name) &&
+								action.target.type !== undefined &&
+								action.target.type !== "DIV"
+							)
+								out.push(
+									<div className="flex bg-gray-800 border-gray-700 text-white border rounded-md p-2 w-full">
+										<div className="flex items-center gap-2 flex-grow">
+											{action.name}
+											<Highlighted>{action.target.label}</Highlighted>
+											{action.name === "input" && action.target.value !== undefined ? (
+												<div className="flex flex-grow items-start flex-col bg-gray-700 p-2 rounded-md gap-2">
+													{action.target.value.map((v) => (
+														<Highlighted color="bg-gray-800 text-white">{v}</Highlighted>
+													))}
+												</div>
+											) : null}
+										</div>
 									</div>
-									<div className="flex gap-2 px-2">
-										{log.action.target.value !== undefined
-											? log.action.target.value.map((value) => <div className="bg-yellow-100 px-[2px]">{value}</div>)
-											: null}
+								)
+
+							const _time = new Date(createdAt)
+							const time = {
+								day: pad(_time.getDate()),
+								month: pad(_time.getMonth() + 1),
+								year: _time.getFullYear(),
+								hours: pad(_time.getHours()),
+								minutes: pad(_time.getMinutes()),
+								seconds: pad(_time.getSeconds()),
+							}
+							const datetime = {
+								time: `${time.hours}:${time.minutes}`,
+								timeWithSeconds: `${time.hours}:${time.minutes}:${time.seconds}`,
+								date: `${time.year}-${time.month}-${time.day}`,
+							}
+
+							if (datetime.date !== lastDate) {
+								lastDate = datetime.date
+								out.push(<MutedContainer color="bg-gray-700">{datetime.date}</MutedContainer>)
+							}
+
+							return out.length > 0 ? (
+								<div className="border bg-gray-900 border-gray-700 rounded-md p-2 flex justify-center items-center gap-2 hover:border-orange-300">
+									<div className="flex items-center gap-2">
+										<Highlighted color="bg-gray-700 text-gray-300">{datetime.time}</Highlighted>
 									</div>
-									<div className="flex shrink-0 items-center">
-										<SimpleButton onClick={() => handleDelete(log._id)}>Delete</SimpleButton>
+									<div className="flex-grow rounded-md">{out}</div>
+									<div className="flex items-center gap-2">
+										<div
+											className="text-[20px] text-gray-400 bg-gray-600 rounded-full p-2 hover:bg-gray-800"
+											onClick={() => handleDelete(_id)}
+										>
+											<MdDeleteOutline />
+										</div>
 									</div>
 								</div>
-							)
-
-							// let separator = null
-
-							// const current = `${log.networkAddress} - ${log.device.split("(")[1].split(")")[0]}`
-							// if (current !== last) {
-							// 	separator = <Separator>{current}</Separator>
-							// }
-							// last = current
-
-							// const time = new Date(log.createdAt)
-
-							// if (log.action.name === "navigated") {
-							// 	return (
-							// 		<>
-							// 			{separator}
-							// 			<Separator>{log.action.target.label}</Separator>
-							// 		</>
-							// 	)
-							// }
-
-							// return (
-							// 	<>
-							// 		{separator}
-							// 		{/* <CollapseBox
-							// 			hidden={
-							// 				<pre className="text-[14px] font-RobotoMono p-2 bg-gray-800 text-white w-full overflow-auto">
-							// 					{JSON.stringify(log, null, 4)}
-							// 				</pre>
-							// 			}
-							// 		> */}
-							// 		<div className="border p-2 flex flex-col bg-white">
-							// 			<div className="flex gap-4 items-center">
-							// 				<div className="flex-grow flex items-center gap-1">
-							// 					<span className="">{log.action.name}</span>
-							// 					<span className="bg-orange-100 px-1">{log.action.target.label}</span>
-							// 					<span className="">{log.action.target.type}</span>
-							// 				</div>
-							// 				<div className="text-gray-500 flex gap-1 text-[12px]">
-							// 					<div>
-							// 						{time.getHours() < 10 ? 0 : null}
-							// 						{time.getHours()}:{time.getMinutes() < 10 ? 0 : null}
-							// 						{time.getMinutes()}
-							// 					</div>
-							// 					{/* <div>
-							// 					{time.getFullYear()}-{time.getMonth() + 1}-{time.getDate()}
-							// 				</div> */}
-							// 				</div>
-							// 				<button
-							// 					className="bg-gray-200 w-[20px] h-[20px] flex items-center justify-center"
-							// 					onClick={() => handleDelete(log._id!)}
-							// 				>
-							// 					&times;
-							// 				</button>
-							// 			</div>
-							// 		</div>
-							// 		{/* </CollapseBox> */}
-							// 	</>
-							// )
+							) : null
 						})
 					)}
 				</div>
-				{/* <Popup
-					open
-					title="Create Token"
-					controls={
-						<>
-							<PopupButton>Cancel</PopupButton>
-							<PopupButton>Create</PopupButton>
-						</>
-					}
-				>
-					<Input placeholder="Session Token" />
-					<Input placeholder="Subject" />
-					<div className="flex items-center px-2 gap-2">
-						<input type="checkbox" className="scale-125" id="input-dashboard-auto-expire" />
-						<label htmlFor="input-dashboard-auto-expire">Auto expire on use</label>
-					</div>
-				</Popup> */}
 			</div>
 		)
 	}
 }
 
-// function CollapseBox(props: PropsWithChildren & { hidden: ReactNode }) {
-// 	const [open, setOpen] = useState(false)
-// 	return (
-// 		<div className="flex flex-col cursor-pointer" onClick={() => setOpen(!open)}>
-// 			{props.children}
-// 			{open ? <div className="flex flex-grow">{props.hidden}</div> : null}
-// 		</div>
-// 	)
-// }
+function MutedContainer({ children, controls, color }: PropsWithChildren & { color?: string; controls?: ReactNode }) {
+	return (
+		<div className="flex p-2 text-white text-[14px]">
+			<div className="flex items-center justify-start flex-grow">
+				<Highlighted color={color + " !text-[14px]"}>{children}</Highlighted>
+			</div>
+			<div className="flex items-center justify-center">{controls}</div>
+		</div>
+	)
+}
 
-export function Separator(props: PropsWithChildren) {
-	return <div className="p-2 text-gray-500 text-[10px] text-center">{props.children}</div>
+function Highlighted({ children, color }: PropsWithChildren & { color?: string }) {
+	return <div className={`${color ?? "bg-orange-200 text-black"} text-[14px] px-2 rounded-md`}>{children}</div>
+}
+
+function Button({ className, children, small, ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { small?: boolean }) {
+	return (
+		<button
+			className={`bg-gray-700 border border-gray-600 px-3 hover:brightness-90 hover:border-orange-300 active:brightness-80 rounded-md text-gray-300 ${
+				small ? "text-[14px]" : "py-1"
+			} ${className}`}
+			{...props}
+		>
+			{children}
+		</button>
+	)
+}
+
+function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
+	return (
+		<input
+			className={`rounded-md border text-white border-gray-600 bg-gray-900 p-1 px-2 outline-none focus:border-orange-300 ${className}`}
+			{...props}
+		/>
+	)
+}
+
+function pad(x: number) {
+	return x < 10 ? "0" + x : x.toString()
 }
