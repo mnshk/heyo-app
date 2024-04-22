@@ -4,33 +4,63 @@ import View, { ViewAction, ViewHeading, ViewMain } from "../components/common/co
 import RootContext from "../context/root"
 import { useNavigate } from "react-router-dom"
 import Footer from "../components/Footer"
+import Popup, { PopupButton } from "@/components/common/popup/Popup"
 
 export default function Heyo() {
 	const { auth, setLoading } = useContext(RootContext)
 	const navigate = useNavigate()
-
+	const lastQuestion = sessionStorage.getItem("lastQuestion")
 	return (
-		<View>
-			<ViewMain>
-				<ViewHeading>Heyo {auth.subject}!</ViewHeading>
-				<div>If you are here that means you know me! or I know you.</div>
-				<div>Would you like to deep dive and explore the uncertainties? Things that are yet to be explored.</div>
-				{/* <div className="font-semibold">Break the ice if there's a spark</div> */}
-			</ViewMain>
-			<ViewAction>
-				<ButtonNeutral
-					onClick={() =>
-						setLoading({
-							isLoading: true,
-							navigateTo: "question/do-you-know-me",
-						})
-					}
-				>
-					Alright! let's start
-				</ButtonNeutral>
-				<ButtonDeny onClick={() => navigate("/goodbye")}>No! leave me alone</ButtonDeny>
-			</ViewAction>
-			<Footer />
-		</View>
+		<>
+			<View>
+				<ViewMain>
+					<ViewHeading>Heyo {auth.subject}!</ViewHeading>
+					<div>Technically it's a survey. But I'd call it a quest.</div>
+					<div>Would you like to deep dive and answer some of these questions?</div>
+					<div>Some of the cliff-hangers are looking for answers.</div>
+				</ViewMain>
+				<ViewAction>
+					<ButtonNeutral
+						onClick={() =>
+							setLoading({
+								isLoading: true,
+								navigateTo: "question/usual-mood",
+							})
+						}
+					>
+						Alright! let's start
+					</ButtonNeutral>
+					<ButtonDeny onClick={() => navigate("/goodbye")}>No! leave me alone</ButtonDeny>
+				</ViewAction>
+				<Footer />
+			</View>
+			<Popup
+				open={lastQuestion !== null}
+				title="Continue where you left off?"
+				message="Would you like to continue from your last question?"
+				controls={
+					<>
+						<PopupButton
+							onClick={() => {
+								sessionStorage.removeItem("lastQuestion")
+								navigate("/")
+							}}
+						>
+							No exit
+						</PopupButton>
+						<PopupButton
+							onClick={() =>
+								setLoading({
+									isLoading: true,
+									navigateTo: "question/" + lastQuestion,
+								})
+							}
+						>
+							Continue
+						</PopupButton>
+					</>
+				}
+			></Popup>
+		</>
 	)
 }

@@ -1,6 +1,5 @@
 import imageThinking from "@/assets/media/hmm-thinking.gif"
 import Popup from "@/components/common/popup/Popup"
-import getRandomInt from "@/utils/getRandomInt"
 import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import RootContext from "../context/root"
@@ -19,32 +18,37 @@ export default function Thinking() {
 
 	useEffect(() => {
 		if (loading.isLoading === true) {
-			const delay = loading.delay ? delays[loading.delay] : delays["medium"]
-			const time = getRandomInt(delay[0], delay[1])
+			navigate(loading.navigateTo!)
+			setLoading({
+				isLoading: false,
+			})
+			// const delay = loading.delay ? delays[loading.delay] : delays["medium"]
+			// const time = getRandomInt(delay[0], delay[1])
 
-			const timeout = setTimeout(() => {
-				if (loading.callback) {
-					loading.callback()
-				}
-				if (loading.navigateTo) {
-					navigate(loading.navigateTo)
-				}
-				setLoading({ isLoading: false })
-				// logService.send({
-				// 	action: "Loading",
-				// 	element: { type: time.toString(), label: loading.to },
-				// })
-			}, 500 ?? time)
+			// const timeout = setTimeout(() => {
+			// 	if (loading.callback) {
+			// 		loading.callback()
+			// 	}
+			// 	if (loading.navigateTo) {
+			// 		navigate(loading.navigateTo)
+			// 	}
+			// 	setLoading({ isLoading: false })
+			// 	// logService.send({
+			// 	// 	action: "Loading",
+			// 	// 	element: { type: time.toString(), label: loading.to },
+			// 	// })
+			// }, 500 ?? time)
 
-			return () => {
-				clearTimeout(timeout)
-			}
+			// return () => {
+			// 	clearTimeout(timeout)
+			// }
 		}
 	})
 
 	return (
 		<Popup
-			open={loading.isLoading}
+			// open={loading.isLoading}
+			open={false}
 			noBorder
 			className="animate-thinking w-[275px]"
 			controls={

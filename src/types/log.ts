@@ -1,5 +1,5 @@
 export type ILog = {
-	_id: string
+	_id?: string
 	createdAt: number
 	subject: string
 	networkAddress: string
@@ -7,12 +7,14 @@ export type ILog = {
 	screenSize: [number, number]
 	sessionToken: string
 	path: string
-	action: {
-		name: "clicked" | "navigated" | "focus" | "dialog" | "input"
-		target: {
-			label: string
-			type: string
-			value?: string[]
-		}
+	action: ILogAction
+}
+
+export type ILogAction = {
+	name: "clicked" | "navigated" | "focus" | "dialog" | "input"
+	target: {
+		label: string
+		type?: string
+		value?: string[]
 	}
 }

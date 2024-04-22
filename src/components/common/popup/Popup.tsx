@@ -1,4 +1,5 @@
-import { HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useState } from "react"
+import logService from "@/services/log/logService"
+import { ButtonHTMLAttributes, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useState } from "react"
 
 type PopupProps = {
 	open: boolean
@@ -24,6 +25,13 @@ export default function Popup({ open, className, children, title, message, contr
 	useEffect(() => {
 		if (open) {
 			_setOpen(true)
+			logService.create({
+				name: "dialog",
+				target: {
+					label: title ?? "NO_TITLE",
+					value: message ? [message] : ["NO_MESSAGE"],
+				},
+			})
 		} else {
 			const timeout = setTimeout(() => {
 				_setOpen(false)
@@ -32,7 +40,7 @@ export default function Popup({ open, className, children, title, message, contr
 				clearTimeout(timeout)
 			}
 		}
-	}, [open])
+	}, [open, message, title])
 
 	const modifiedWrapperProps = {
 		...wrapperProps,
@@ -58,9 +66,9 @@ export default function Popup({ open, className, children, title, message, contr
 	) : null
 }
 
-export function PopupButton({ className, children, ...props }: HTMLAttributes<HTMLButtonElement>) {
+export function PopupButton({ className, children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
 	return (
-		<button {...props} className={`p-[14px] mt-[2px] w-full bg-white text-[#306FDB] ${className}`}>
+		<button {...props} className={`p-[14px] mt-[2px] w-full disabled:text-blue-300 bg-white text-[#306FDB] ${className}`}>
 			{children}
 		</button>
 	)

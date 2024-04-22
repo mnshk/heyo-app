@@ -1,40 +1,63 @@
+import View from "@/components/common/containers/View"
+import Loading from "@/components/Loading"
+import RootContext from "@/context/root"
+import authService from "@/services/auth/authService"
 import getNetworkAddress from "@/utils/getNetworkAddress"
 import { useContext, useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import RootContext from "../context/root"
 
 export default function Login() {
-	const { setAuth } = useContext(RootContext)
+	const { auth, setAuth } = useContext(RootContext)
 	const [searchParams] = useSearchParams()
-	const token = searchParams.get("token")
 	const navigate = useNavigate()
 
-	async function handleLogin() {
-		const networkAddress = await getNetworkAddress()
-		const res = {
-			isValid: true,
-			subject: "Shubhani",
+	async function handleLogin(sessionToken: string) {
+		let networkAddress = sessionStorage.getItem("networkAddress")
+		if (networkAddress === null) {
+			const result = await getNetworkAddress()
+			if (result === undefined) {
+				navigate("/error")
+				return
+			}
+			networkAddress = result
 		}
-		if (networkAddress && res.isValid) {
-			setAuth((prev) => ({
-				...prev,
-				isAuthenticated: true,
-				sessionToken: token,
-				subject: "Shubhani",
-			}))
-			navigate("/")
+		const result = await authService.validate(sessionToken, networkAddress)
+
+		if (result === undefined) {
+			sessionStorage.clear()
+			navigate("/unauthorized")
+			return
 		} else {
-			navigate("/error")
+			sessionStorage.setItem("sessionToken", sessionToken)
+			sessionStorage.setItem("subject", result.subject)
+			sessionStorage.setItem("networkAddress", networkAddress)
+
+			setTimeout(() => {
+				setAuth({
+					isAuthenticated: true,
+					networkAddress,
+					sessionToken,
+					subject: result.subject,
+				})
+				navigate("/")
+			}, 3000)
 		}
 	}
 
 	useEffect(() => {
-		if (token !== null && token === "kaka123") {
-			handleLogin()
-		} else {
-			navigate("/unauthorized")
-		}
-	}, [])
+		const tokenFromSearch = searchParams.get("token")
+		const tokenFromSession = sessionStorage.getItem("sessionToken")
 
-	return null
+		if (auth.isAuthenticated) navigate("/")
+		else if (tokenFromSearch !== null) handleLogin(tokenFromSearch)
+		else if (tokenFromSession !== null) handleLogin(tokenFromSession)
+		else navigate("/unauthorized")
+		// eslint-disable-next-line
+	}, [])
+	return (
+		<>
+			<View />
+			<Loading loading message="Please wait, making sure you are the right person to see this..." />
+		</>
+	)
 }

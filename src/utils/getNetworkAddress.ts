@@ -4,6 +4,6 @@ export default async function getNetworkAddress() {
 		const data: { ip: string } = await response.json()
 		return data.ip
 	} catch {
-		return false
+		return
 	}
 }

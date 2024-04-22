@@ -1,78 +1,47 @@
-import { ILog } from "../../types/Log"
+import { ILog, ILogAction } from "../../types/Log"
+
+type ILogRequestBody = {
+	action: "create" | "read" | "delete"
+	payload?: { deleteKey?: string; deleteValue?: string } | ILog
+}
 
 const logService = {
-	async api(body: unknown) {
-		let response = {
-			error: {
-				hasError: false,
-				errorCode: "",
-				errorMessage: "",
-			},
-			payload: {},
-		}
+	async api(body: ILogRequestBody) {
 		try {
-			const baseURL = import.meta.env.VITE_LOG_API
-
-			if (typeof baseURL !== "string" || baseURL === "") {
-				throw new Error("NO_BASE_URL")
+			const baseURL = import.meta.env.VITE_API_URL
+			if (baseURL === undefined) {
+				throw new Error("baseURL undefined")
 			}
-			const url = baseURL + "/log"
-			const res = await fetch(url, {
+			const result = await fetch(baseURL + "/logs", {
 				method: "POST",
 				body: JSON.stringify(body),
 			})
-			response = await res.json()
-		} catch (e) {
-			if (e instanceof Error) {
-				response.error.errorCode = e.message
-			} else {
-				response.error.hasError = true
-				response.error.errorMessage = "Unable to reach the server"
-			}
+			return await result.json()
+		} catch {
+			return false
 		}
-		return response
 	},
-	async send(payload: ILog) {
-		const updatedPayload: ILog = {
-			...payload,
-			time: Date.now(),
-			ip: sessionStorage.getItem("ip") ?? "NO_IP",
-			meta: {
-				innerHeight,
-				innerWidth,
-				userAgent: navigator.userAgent,
-			},
-			location: {
-				origin: window.location.origin,
-				pathname: window.location.pathname,
-				hash: window.location.hash,
-				search: window.location.search,
-			},
+	create(action: ILogAction) {
+		const payload: ILog = {
+			createdAt: Date.now(),
+			subject: sessionStorage.getItem("subject")!,
+			networkAddress: sessionStorage.getItem("networkAddress")!,
+			sessionToken: sessionStorage.getItem("sessionToken")!,
+			device: navigator.userAgent,
+			path: location.href,
+			screenSize: [innerWidth, innerHeight],
+			action,
 		}
-
-		console.log(updatedPayload)
-
-		return this.api({
-			action: "insertOne",
-			payload: updatedPayload,
-		})
+		return this.api({ action: "create", payload })
 	},
 	get() {
-		return this.api({
-			action: "find",
-		})
+		return this.api({ action: "read" })
 	},
-	delete(_id: string) {
+	delete(deleteKey: string, deleteValue: string) {
 		return this.api({
-			action: "deleteOne",
-			payload: { _id },
-		})
-	},
-	deleteAll() {
-		return this.api({
-			action: "deleteMany",
+			action: "delete",
+			payload: { deleteKey, deleteValue },
 		})
 	},
 }
-
 export default logService

@@ -1,4 +1,5 @@
 import { Input } from "@/components/common/inputs/Input"
+import logService from "@/services/log/logService"
 import { InputHTMLAttributes } from "react"
 
 // Array to store phrases typed earlier
@@ -40,7 +41,7 @@ export default function LoggerInput({ value, onChange, onBlur, ...props }: { val
 		// If props also passed some onBlur handler, execute it
 		if (onBlur !== undefined) onBlur(e)
 		// At this moment this should send a beacon to log service
-		console.log("[Beacon]", savedValues)
+		logService.create({ name: "input", target: { label: props.placeholder ?? "NO_LABEL", type: "LoggerInput", value: savedValues } })
 	}
 	return <Input {...props} onChange={handleChange} onBlur={handleBlur} value={value} />
 }

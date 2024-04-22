@@ -12,6 +12,7 @@ export default function Goodbye() {
 			networkAddress: null,
 			subject: null,
 		})
+		sessionStorage.clear()
 	}, [setAuth])
 
 	return (

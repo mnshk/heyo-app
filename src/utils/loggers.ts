@@ -2,10 +2,9 @@ import logService from "../services/log/logService"
 
 export function clickLogger(e: MouseEvent) {
 	const target = e.target as HTMLElement
-
-	logService.send({
-		action: "Clicked",
-		element: {
+	logService.create({
+		name: "clicked",
+		target: {
 			type: target.nodeName,
 			label: target.innerText.trim() === "" ? target.title : target.innerText,
 		},
@@ -13,11 +12,9 @@ export function clickLogger(e: MouseEvent) {
 }
 
 export function visibilityLogger() {
-	console.log("visibility")
-
-	logService.send({
-		action: "Visibility",
-		element: {
+	logService.create({
+		name: "focus",
+		target: {
 			type: "",
 			label: document.visibilityState,
 		},

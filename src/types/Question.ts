@@ -1,6 +1,7 @@
 export type IQuestionOption = {
 	label: string
 	nextQuestion?: string
+	selected?: boolean
 }
 
 export type IQuestion = {

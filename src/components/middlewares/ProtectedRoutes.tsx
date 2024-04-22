@@ -6,5 +6,5 @@ export default function ProtectedRoutes() {
 	const { auth } = useContext(RootContext)
 	const location = useLocation()
 
-	return auth.isAuthenticated ? <Outlet /> : <Navigate to={"/login" + location.search + location.hash} replace />
+	return auth.isAuthenticated ? <Outlet /> : <Navigate to={"/login" + location.search} />
 }

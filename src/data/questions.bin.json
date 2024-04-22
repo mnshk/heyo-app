@@ -1,0 +1,38 @@
+{
+	"imagination": {
+		"question": "Do you think you have a good Imagination",
+		"nextQuestion": "center-of-attraction",
+		"options": [
+			{ "label": "I can easily come up with new ideas and creative solutions" },
+			{ "label": "I am creative but I always need a little bit of help from someone" },
+			{ "label": "I don't think I'm very good at imagination" }
+		]
+	},
+	"center-of-attraction": {
+		"question": "Be honest, do you like to be the center of attraction?",
+		"nextQuestion": "backup-plans",
+		"options": [
+			{ "label": "I find it good, everyone knows you and you make new friends and connect with new people" },
+			{ "label": "I enjoy socializing and being part of groups, but I don't necessary want to be the main focus" },
+			{ "label": "I prefer a smaller group and not to have people's attention" }
+		]
+	},
+	"work-in-advance": {
+		"question": "Do you work in advance so you can have free time later?",
+		"nextQuestion": "night-out-or-night-in",
+		"options": [
+			{ "label": "I only work when its needed and on time" },
+			{ "label": "I like to work in advanced so I can enjoy later" },
+			{ "label": "I hardly get my work done by the deadline" }
+		]
+	},
+	"needs-before-partner": {
+		"question": "Do you feel like you put your needs before your partner or friend",
+		"nextQuestion": "disagree-with-partner",
+		"options": [
+			{ "label": "I value my well-being and can't compromise with it" },
+			{ "label": "I believe in compromises and adjustments to make sure my partner feels happy and fulfilled" },
+			{ "label": "I feel there should be a balance to fulfill everyone's needs" }
+		]
+	}
+}

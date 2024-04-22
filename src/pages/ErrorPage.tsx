@@ -1,5 +1,5 @@
 import View, { ViewHeading, ViewMain } from "@/components/common/containers/View"
-import { useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 
 export default function ErrorPage() {
 	const [searchParams] = useSearchParams()
@@ -14,7 +14,7 @@ export default function ErrorPage() {
 				<ViewHeading>{errorMessage}</ViewHeading>
 				<div>{errorDescription}</div>
 				<div className="text-[12px] text-gray-500">Error Code: {errorCode}</div>
-				<a href="/?token=kaka123">Restart</a>
+				<Link to="/">Restart</Link>
 			</ViewMain>
 		</View>
 	)

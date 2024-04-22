@@ -1,86 +1,333 @@
 {
-	"do-you-know-me": {
-		"question": "Do you know me?",
-		"nextQuestion": "/question/usual-state-of-mind",
+	"usual-mood": {
+		"question": "How would you describe your usual mood ?",
+		"nextQuestion": "mood-swings",
+		"options": [{ "label": "Calm and relaxed" }, { "label": "Stressed and frustrated" }, { "label": "Mostly bored" }]
+	},
+	"mood-swings": {
+		"question": "Do you think your mood changes quickly ?",
+		"nextQuestion": "early-bird-night-own",
 		"options": [
-			{ "label": "Yeah, I know you really well!" },
-			{ "label": "I know you but not that much" },
-			{ "label": "Not yet but I'd be happy to know" },
-			{ "label": "I've just heard about you" }
+			{ "label": "No it mostly stays the same" },
+			{ "label": "It changes dramatically, I can go from happy to sad like in a minute" },
+			{ "label": "It shifts a little, but not dramatically" }
 		]
 	},
-	"usual-state-of-mind": {
-		"question": "You usually stay?",
-		"nextQuestion": "/question/what-will-irritate-you-the-most",
-		"options": [{ "label": "Calm" }, { "label": "Angry" }, { "label": "Stressed out" }]
+	"early-bird-night-own": {
+		"question": "Are you an early bird or night owl ?",
+		"nextQuestion": "most-active-time",
+		"options": [{ "label": "I sleep early and get up early" }, { "label": "I can't sleep till late night" }]
 	},
-	"what-will-irritate-you-the-most": {
-		"question": "What will irritate you the most?",
-		"nextQuestion": "/question/early-bird-or-night-owl",
+	"most-active-time": {
+		"question": "When do you think you're most active and energetic ?",
+		"nextQuestion": "shopping",
 		"options": [
-			{ "label": "Insult or disrespect" },
-			{ "label": "Getting ignored or feeling unwanted" },
-			{ "label": "Lack of communication" },
-			{ "label": "Dishonesty, Lying or Cheating" }
+			{ "label": "I like getting up early in the morning to get my work done" },
+			{ "label": "I am more active and energetic during the night" }
 		]
 	},
-	"early-bird-or-night-owl": {
-		"question": "Are you an early bird or a night owl?",
-		"nextQuestion": "/question/how-often-you-like-to-go-out-for-food",
-		"options": [
-			{ "label": "I sleep early and wake up early" },
-			{ "label": "Sometimes I sleep early sometimes late" },
-			{ "label": "I'm most active during the night, can't sleep till its 2AM" }
-		]
-	},
-	"how-often-you-like-to-go-out-for-food": {
-		"question": "How often do you like to go out for casual food at restaurants or cafes?",
-		"sensitive": true,
-		"nextQuestion": "/question/how-often-you-like-to-go-shopping",
-		"options": [
-			{ "label": "I rarely eat out for casual food, I prefer home cooked" },
-			{ "label": "Almost everyday, for lunch or a quick bite" },
-			{ "label": "Just on special occasions is enough for me" },
-			{ "label": "I like to eat out atleast once a month" }
-		]
-	},
-	"how-often-you-like-to-go-shopping": {
-		"question": "How often do you like to go shopping?",
-		"nextQuestion": "/question/how-often-you-go-for-parties",
+	"shopping": {
+		"question": "How often do you like to go out for shopping ?",
+		"nextQuestion": "eat-out",
 		"options": [
 			{ "label": "Almost every week" },
 			{ "label": "Maybe once a month" },
 			{ "label": "Few times a year" },
-			{ "label": "Just on special occasions is enough for me" }
+			{ "label": "Just for special occasions is enough for me" }
 		]
 	},
-	"how-often-you-go-for-parties": {
-		"question": "How often do you go out for parties?",
-		"nextQuestion": "/question/most-important-quality-in-friend",
+	"eat-out": {
+		"question": "How often you like to go out for casual food at restaurants or cafes ?",
+		"nextQuestion": "parties",
 		"options": [
-			{ "label": "Rarely or never. I'm not a party person" },
+			{ "label": "I rarely eat out, I prefer home cooked" },
+			{ "label": "Almost everyday for lunch or a quick bite" },
+			{ "label": "Just on special occasions is enough" },
+			{ "label": "Atleast once a month" }
+		]
+	},
+	"parties": {
+		"question": "How often do you go out for parties ?",
+		"nextQuestion": "keep-thoughts-or-say-out",
+		"options": [
+			{ "label": "Rarely or never, I'm not a party person" },
 			{ "label": "Just on special occasions" },
 			{ "label": "A few times a month" },
 			{ "label": "Multiple times a week" }
 		]
 	},
-	"most-important-quality-in-friend": {
-		"question": "What is the most important quality you look for in a friend or partner?",
-		"nextQuestion": "/question/disagreement-with-partner",
+	"keep-thoughts-or-say-out": {
+		"question": "Do you keep your thoughts to yourself or say them out loud ?",
+		"nextQuestion": "hard-to-express-feelings",
+		"options": [{ "label": "I mostly keep my thoughts to myself" }, { "label": "I often share what I'm thinking with my friends and family" }]
+	},
+	"hard-to-express-feelings": {
+		"question": "Do you find it hard to express what you're feeling ?",
+		"nextQuestion": "hard-to-say-no",
+		"options": [
+			{ "label": "I am very comfortable sharing my thoughts with others." },
+			{ "label": "I feel like people won't understand what I amd feeling or what I think" }
+		]
+	},
+	"hard-to-say-no": {
+		"question": "Do you find it hard to say no to people ?",
+		"nextQuestion": "avoids-arguing",
+		"options": [
+			{ "label": "I usually find it hard to say no to people" },
+			{ "label": "I usually try to help out, but I'll say no if I'm busy" },
+			{ "label": "I have no problem saying no if it doesn't fit my priorities" }
+		]
+	},
+	"avoids-arguing": {
+		"question": "Do you avoid arguing with people even when you disagree or you're angry ?",
+		"nextQuestion": "uncomfortable-when-disagree",
+		"options": [
+			{ "label": "I try to avoid arguments even if I'm upset" },
+			{ "label": "I value my opinion and prefer to prove my point" },
+			{ "label": "I argue when I feel its necessary" }
+		]
+	},
+	"uncomfortable-when-disagree": {
+		"question": "Do you feel sad or uncomfortable when you disagree with someone ?",
+		"nextQuestion": "you-forgive-easily",
+		"options": [
+			{ "label": "Why would I feel uncomfortable if our opinions don't match, everyone has their own choice" },
+			{ "label": "I feel bad when I disagree with someone" }
+		]
+	},
+	"you-forgive-easily": {
+		"question": "Do you forgive people easily for their mistakes ?",
+		"nextQuestion": "front-row-or-back",
+		"options": [
+			{ "label": "I forgive people very easily" },
+			{ "label": "I can forgive people but it takes some time" },
+			{ "label": "I can't forgive people for their mistakes" }
+		]
+	},
+	"front-row-or-back": {
+		"question": "In a concert, would you rather ?",
+		"nextQuestion": "free-day",
+		"options": [
+			{ "label": "Sit in the front row, close to stage where everyone sees you" },
+			{ "label": "Sit in the back row and enjoy the show" }
+		]
+	},
+	"free-day": {
+		"question": "How would you prefer to spend a free day ?",
+		"nextQuestion": "tell-or-hide-truth",
+		"options": [
+			{ "label": "Relaxing at home with a good movie or book" },
+			{ "label": "Getting out and exploring outdoors and meeting friends" },
+			{ "label": "Diving into a hobby or creative project" }
+		]
+	},
+	"tell-or-hide-truth": {
+		"question": "Would you rather tell the truth to your friend or hide it if it makes him sad ?",
+		"nextQuestion": "good-impression",
+		"options": [
+			{ "label": "I'd be honest and tell the truth, no matter if it hurts him" },
+			{ "label": "I'd avoid telling the truth if it hurts him" }
+		]
+	},
+	"good-impression": {
+		"question": "Do you worry about making a good impression on people around you ?",
+		"nextQuestion": "competition",
+		"options": [
+			{ "label": "I put efforts to make a positive impression" },
+			{ "label": "I focus on being myself rather than caring about my impression" },
+			{ "label": "I like people to know the best side of me" }
+		]
+	},
+	"competition": {
+		"question": "Do you like competition ?",
+		"nextQuestion": "future-plans",
+		"options": [{ "label": "Yes, I like competing with others" }, { "label": "No, I feel uncomfortable when people are competing with me" }]
+	},
+	"future-plans": {
+		"question": "Do you often feel stressed about your future plans ?",
+		"nextQuestion": "decision-making",
+		"options": [
+			{ "label": "Yes, I care a lot about future and make future plans" },
+			{ "label": "No, I prefer to live in the present and enjoy without worrying about the future" }
+		]
+	},
+	"decision-making": {
+		"question": "How long do you take to make a decision ?",
+		"nextQuestion": "emotions-or-logic",
+		"options": [{ "label": "I decide things quickly" }, { "label": "I need a lot of time to think then I can make a decision" }]
+	},
+	"emotions-or-logic": {
+		"question": "Do you think you are emotional ?",
+		"nextQuestion": "regrets",
+		"options": [
+			{ "label": "Yes, I go with my heart, I take decisions with my gut feeling" },
+			{ "label": "No, I carefully analyze facts and information then take decision" }
+		]
+	},
+	"regrets": {
+		"question": "Do you regret your decisions after you take them ?",
+		"nextQuestion": "aesthetics-or-work",
+		"options": [{ "label": "Yes" }, { "label": "No" }]
+	},
+	"aesthetics-or-work": {
+		"question": "How do you like your living and working spaces ?",
+		"nextQuestion": "backup-plans",
+		"options": [
+			{ "label": "I like things organized and clean. I focus on aesthetics" },
+			{ "label": "It doesn't matter much if things are not organized. I focus more on work" }
+		]
+	},
+	"backup-plans": {
+		"question": "Do you always have a backup plan ?",
+		"nextQuestion": "work-or-rest",
+		"options": [{ "label": "Yes, I always have a plan B" }, { "label": "No, I focus on the main plan and don't think about alternatives" }]
+	},
+	"work-or-rest": {
+		"question": "If you have to work and you are tired ?",
+		"nextQuestion": "night-out-or-night-in",
+		"options": [
+			{ "label": "I would finish the work then rest. I can't rest when I have work to do" },
+			{ "label": "I would rest then finish my work. I can't work when I'm tired" }
+		]
+	},
+
+	"night-out-or-night-in": {
+		"question": "What would you prefer ?",
+		"nextQuestion": "serious-or-casual-relation",
+		"options": [{ "label": "A night out at a new restaurant" }, { "label": "A night at home with takeout food and movie" }]
+	},
+	"serious-or-casual-relation": {
+		"question": "What do you prefer ?",
+		"nextQuestion": "important-quality-in-friend",
+		"options": [
+			{ "label": "Serious and committed relations" },
+			{ "label": "Casual relations (dating without commitments)" },
+			{ "label": "No strings attached kind of relation" }
+		]
+	},
+	"important-quality-in-friend": {
+		"question": "What do you think is a most important quality in a friend or partner ?",
+		"nextQuestion": "common-interests-in-relation",
 		"options": [
 			{ "label": "Intelligence and presence of mind" },
 			{ "label": "Looks and social status" },
-			{ "label": "Honesty and Trust" },
-			{ "label": "Having common values and interests" }
+			{ "label": "Honesty and trust" },
+			{ "label": "Having common interests and values" }
 		]
 	},
-	"disagreement-with-partner": {
-		"question": "If you disagree with your partner or friend, then",
-		"nextQuestion": "/question/",
+	"common-interests-in-relation": {
+		"question": "What do you think how important it is to have common interests in a relation ?",
+		"nextQuestion": "what-irritates-the-most",
+		"options": [
+			{ "label": "Very important for building a strong connection" },
+			{ "label": "Doesn't matter as long as you both enjoy each other's hobbies" }
+		]
+	},
+	"what-irritates-the-most": {
+		"question": "What irritates you the most ?",
+		"nextQuestion": "disagree-with-partner",
+		"options": [
+			{ "label": "Insult or disrespect" },
+			{ "label": "Being Ignored, Feeling unwanted or Lack of communication" },
+			{ "label": "Dishonesty, Lying or Cheating" }
+		]
+	},
+	"disagree-with-partner": {
+		"question": "If you disagree with your partner or friend, then ?",
+		"nextQuestion": "disagree-on-movie",
 		"options": [
 			{ "label": "If I'm right I will prove my point, no matter if it hurts him" },
-			{ "label": "I will try to prove my point but its not more important than his feelings" },
-			{ "label": "Proving my point isn't important in a disagreement" }
+			{ "label": "I will try to prove my point but its not more important than his feelings" }
+		]
+	},
+	"disagree-on-movie": {
+		"question": "Imagine you and someone you're dating disagree on a movie to watch. How would you handle that ?",
+		"nextQuestion": "punished-for-mistakes",
+		"options": [
+			{ "label": "I won't watch the movie with him if he disagrees, I will watch alone" },
+			{ "label": "Respect their choice and watch the movie that he wants" },
+			{ "label": "Take turns, pick a movie of his choice and next time pick yours" }
+		]
+	},
+	"punished-for-mistakes": {
+		"question": "Do you think people should be punished for their mistakes ?",
+		"nextQuestion": "money-or-time",
+		"options": [
+			{ "label": "Yes, It's important people must be punished" },
+			{ "label": "People should learn from their mistakes, but punishment is not a good thing" },
+			{ "label": "No, People should be forgiven for their mistakes" }
+		]
+	},
+	"money-or-time": {
+		"question": "What do you think is important ?",
+		"nextQuestion": "people-respect-you",
+		"options": [
+			{ "label": "Money is more important, you can't do anything with time if you have no money" },
+			{ "label": "Time is more important, you can't do anything with money if you have no time" }
+		]
+	},
+	"people-respect-you": {
+		"question": "Do you think people like and respect you ?",
+		"nextQuestion": "hard-life-or-god",
+		"options": [
+			{ "label": "I don't have any special talent, why would people like or respect me" },
+			{ "label": "I think most people like and respect me" },
+			{ "label": "Only some close friends like me" }
+		]
+	},
+	"hard-life-or-god": {
+		"question": "Do you think everything will be fine in the end ?",
+		"nextQuestion": "one-year-to-live",
+		"options": [
+			{ "label": "Yes, I believe god will do everything right for me" },
+			{ "label": "No, life is hard and you have to work for your dreams" }
+		]
+	},
+	"one-year-to-live": {
+		"question": "Imagine you have only one year left to live. what will you do ?",
+		"nextQuestion": "fame-or-money",
+		"options": [
+			{ "label": "I will spend that time with my family" },
+			{ "label": "I will go out and do what I always wanted to do in my life and fulfill my dreams" },
+			{ "label": "I have everything and I'm happy. I will enjoy that last year normally like I do" }
+		]
+	},
+	"fame-or-money": {
+		"question": "If you could pick one, which one it would be ?",
+		"nextQuestion": "privacy-or-social-status",
+		"options": [
+			{ "label": "Being famous is more important than being rich. I will choose to be famous even if I'm poor." },
+			{ "label": "Being rich is more important than being famous. I will choose to be wealthy even if no one knows me" }
+		]
+	},
+	"privacy-or-social-status": {
+		"question": "Do you value your privacy or your social status ?",
+		"nextQuestion": "dreams-of-me",
+		"options": [
+			{ "label": "I like to have a private life" },
+			{ "label": "I like to have a good social status, you should be popular among people, they should know who you are." }
+		]
+	},
+	"dreams-of-me": {
+		"question": "Have you ever seen me in your dreams ?",
+		"nextQuestion": "what-if-someone-likes-you",
+		"options": [{ "label": "Yes, once" }, { "label": "Yes, few times" }, { "label": "No, never" }]
+	},
+	"what-if-someone-likes-you": {
+		"question": "How would you react if you get to know that someone likes you ?",
+		"nextQuestion": "he-who-sent-you",
+		"options": [
+			{ "label": "I'd be offended and its annoying to me" },
+			{ "label": "I don't care because I'm not interested in anyone" },
+			{ "label": "I'd be happy he felt comfortable telling me that" }
+		]
+	},
+	"he-who-sent-you": {
+		"question": "Do you think he who sent this to you likes you ?",
+		"nextQuestion": "he-does",
+		"options": [
+			{ "label": "I think he do" },
+			{ "label": "I think he don't" }
 		]
 	}
 }

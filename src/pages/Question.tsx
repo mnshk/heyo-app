@@ -1,55 +1,28 @@
 import Popup, { PopupButton } from "@/components/common/popup/Popup"
 import { IQuestions } from "@/types/Question"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { MdInfoOutline } from "react-icons/md"
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import Footer from "../components/Footer"
 import { ButtonDenySecondary, ButtonNeutral } from "../components/common/buttons/Buttons"
 import View, { ViewAction, ViewHeader, ViewHeading, ViewMain } from "../components/common/containers/View"
-import _questions from "../data/questions.json"
 import RootContext from "../context/root"
+import _questions from "../data/questions.json"
 const questions = _questions as IQuestions
 
 export default function Question() {
-	const [wrapperLoadingClass, setWrapperLoadingClass] = useState("")
+	const { questionIdentifier } = useParams()
+	const { pathname } = useLocation()
 	const [iDoNotCarePopupOpen, setIDoNotCarePopupOpen] = useState(false)
 	const [showSensitiveContent, setShowSensitiveContent] = useState(true)
-	const { loading, setLoading, progress, setProgress, settings, setSettings } = useContext(RootContext)
-	const { questionIdentifier } = useParams()
+	const { setLoading, settings, setSettings } = useContext(RootContext)
 	const navigate = useNavigate()
-
-	useEffect(() => {
-		if (loading.isLoading) {
-			setWrapperLoadingClass("")
-		} else {
-			setWrapperLoadingClass("animate-page-in")
-			setShowSensitiveContent(false)
-		}
-	}, [loading.isLoading])
 
 	if (questionIdentifier !== undefined) {
 		const current = questions[questionIdentifier]
 		return (
 			<>
-				<View
-					noAnimation
-					wrapperProps={{ className: wrapperLoadingClass }}
-					className={`gap-[20px] ${current.sensitive ? "bg-red-200" : null}`}
-				>
-					{/* <ViewHeader>
-					<NavButton direction="backward" />
-					<div className="flex-grow flex justify-center items-center">
-						<div className="bg-gray-300 w-[100px] h-[10px] rounded-md overflow-hidden">
-							<div
-								className={`bg-green-500 h-full rounded-md`}
-								style={{
-									width: `${progress}%`,
-								}}
-							></div>
-						</div>
-					</div>
-					<NavButton direction="forward" />
-				</ViewHeader> */}
+				<View className={`gap-[20px] ${current.sensitive ? "bg-red-200" : null}`} key={pathname}>
 					<ViewHeader>
 						<div className="flex-grow flex items-center justify-center gap-[6px] text-gray-500 text-[12px]">
 							{current.sensitive ? (
@@ -65,17 +38,19 @@ export default function Question() {
 					<ViewMain>
 						<ViewHeading>{current.question}</ViewHeading>
 					</ViewMain>
-					<ViewAction>
+					<ViewAction className="flex-grow">
 						{current.options.map((option) => (
 							<ButtonNeutral
 								key={option.label}
-								className="w-full"
+								className={`w-full active:bg-red-500 active:bg-opacity-25`}
 								onClick={() => {
-									setLoading({
-										isLoading: true,
-										navigateTo: option.nextQuestion ?? current.nextQuestion!,
-									})
-									setProgress(progress + 10)
+									const next = option.nextQuestion ?? current.nextQuestion!
+									sessionStorage.setItem("lastQuestion", next)
+									setTimeout(() => {
+										navigate("/question/" + next, {
+											replace: false,
+										})
+									}, 300)
 								}}
 							>
 								{option.label}
@@ -98,7 +73,6 @@ export default function Question() {
 						}
 					/>
 				</View>
-
 				<Popup
 					open={Boolean(current.sensitive) && !showSensitiveContent && !settings.hideSensitiveContentWarning}
 					title="Sensitive Question"

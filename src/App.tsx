@@ -1,18 +1,20 @@
 import { useState } from "react"
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
-import Dashboard from "./pages/Dashboard"
-import Goodbye from "./pages/Goodbye"
-import ErrorPage from "./pages/ErrorPage"
-import Login from "./pages/Login"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import LoggerMiddleware from "./components/middlewares/LoggerMiddleware"
 import ProtectedRoutes from "./components/middlewares/ProtectedRoutes"
 import Thinking from "./components/Thinking"
-import Unauthorized from "./pages/Unauthorized"
-import Heyo from "./pages/Heyo"
-import Question from "./pages/Question"
 import RootContext from "./context/root"
-import { ILoading } from "./types/Loading"
-import { IAuth } from "./context/root/types/IAuth"
 import { ISettings } from "./context/root/types"
+import { IAuth } from "./context/root/types/"
+import Dashboard from "./pages/Dashboard"
+import ErrorPage from "./pages/ErrorPage"
+import Goodbye from "./pages/Goodbye"
+import HeDoes from "./pages/HeDoes"
+import Heyo from "./pages/Heyo"
+import Login from "./pages/Login"
+import Question from "./pages/Question"
+import Unauthorized from "./pages/Unauthorized"
+import { ILoading } from "./types/Loading"
 
 export default function App() {
 	const [auth, setAuth] = useState<IAuth>({
@@ -42,27 +44,23 @@ export default function App() {
 				setProgress,
 			}}
 		>
-			<BrowserRouter>
+			<BrowserRouter basename="/do-i-know-you">
 				<Routes>
-					<Route
-						path="/"
-						element={
-							<>
-								<ProtectedRoutes />
-								<Thinking />
-							</>
-						}
-					>
-						<Route path="/question/:questionIdentifier" element={<Question />} />
-						<Route index element={<Heyo />} />
+					<Route path="/" element={<LoggerMiddleware />}>
+						<Route path="/" element={<ProtectedRoutes />}>
+							<Route index element={<Heyo />} />
+							<Route path="/question/:questionIdentifier" element={<Question />} />
+							<Route path="/question/he-does" element={<HeDoes />} />
+						</Route>
+						<Route path="/goodbye" element={<Goodbye />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/error" element={<ErrorPage />} />
+						<Route path="/unauthorized" element={<Unauthorized />} />
+						<Route path="/*" element={<div>404 Page not found</div>} />
 					</Route>
 					<Route path="/dashboard" element={<Dashboard />} />
-					<Route path="/unauthorized" element={<Unauthorized />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/goodbye" element={<Goodbye />} />
-					<Route path="/error" element={<ErrorPage />} />
-					<Route path="/*" element={<Navigate to="/error?errorMessage=404&errorCode=404&errorDescription=Page not found" />} />
 				</Routes>
+				<Thinking />
 			</BrowserRouter>
 		</RootContext.Provider>
 	)

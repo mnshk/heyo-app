@@ -10,20 +10,19 @@ export default function Dashboard() {
 
 	async function fetchLogs() {
 		if (document.visibilityState === "hidden") return
-
 		setLoading(true)
 		const data = await logService.get()
 		setLoading(false)
-		if (data.error.hasError) {
-			alert("Error")
+		if (!data) {
+			console.log("Error", data)
 			return
 		}
-		setLogs(data.payload as ILog[])
+		setLogs(data as ILog[])
 	}
 
-	function handleDelete(id: string) {
+	function handleDelete(id: string | undefined) {
 		setLogs(logs.filter((log) => log._id !== id))
-		logService.delete(id)
+		logService.delete("_id", id!)
 	}
 
 	useEffect(() => {
@@ -40,7 +39,7 @@ export default function Dashboard() {
 
 	const [loading, setLoading] = useState(false)
 
-	let last = ""
+	// let last = ""
 
 	if (!authenticated) {
 		return (
@@ -72,9 +71,9 @@ export default function Dashboard() {
 				<div className="flex gap-1 px-5 items-center">
 					<SimpleButton onClick={fetchLogs}>Refresh</SimpleButton>
 					<SimpleButton
-						onClick={() => {
+						onClick={async () => {
 							if (confirm("Are you sure")) {
-								logService.deleteAll()
+								await logService.delete("", "*")
 								fetchLogs()
 							}
 						}}
@@ -89,70 +88,112 @@ export default function Dashboard() {
 						<div className="flex items-center justify-center flex-grow">No Logs</div>
 					) : (
 						logs.map((log) => {
-							if (log.ip === undefined || log.meta?.userAgent === undefined) {
-								return null
-							}
-
-							let separator = null
-
-							const current = `${log.ip} - ${log.meta?.userAgent.split("(")[1].split(")")[0]}`
-							if (current !== last) {
-								separator = <Separator>{current}</Separator>
-							}
-							last = current
-
-							const time = new Date(log.time!)
-
-							if (log.action === "Rendering") {
+							if (log.action.name === "focus" || log.action.name === "navigated") {
 								return (
-									<>
-										{separator}
-										<Separator>{log.element.label}</Separator>
-									</>
+									<div className="text-[11px] flex text-center p-2">
+										<div className="flex-grow">
+											{log.action.name} {log.action.target.label}
+										</div>
+										<div>
+											<button onClick={() => handleDelete(log._id)}>Delete</button>
+										</div>
+									</div>
 								)
 							}
 
 							return (
-								<>
-									{separator}
-									{/* <CollapseBox
-										hidden={
-											<pre className="text-[14px] font-RobotoMono p-2 bg-gray-800 text-white w-full overflow-auto">
-												{JSON.stringify(log, null, 4)}
-											</pre>
-										}
-									> */}
-									<div className="border p-2 flex flex-col bg-white">
-										<div className="flex gap-4 items-center">
-											<div className="flex-grow flex items-center gap-1">
-												<span className="">{log.action}</span>
-												<span className="bg-orange-100 px-1">{log.element.label}</span>
-												<span className="">{log.element.type}</span>
-											</div>
-											<div className="text-gray-500 flex gap-1 text-[12px]">
-												<div>
-													{time.getHours() < 10 ? 0 : null}
-													{time.getHours()}:{time.getMinutes() < 10 ? 0 : null}
-													{time.getMinutes()}
-												</div>
-												{/* <div>
-												{time.getFullYear()}-{time.getMonth() + 1}-{time.getDate()}
-											</div> */}
-											</div>
-											<button
-												className="bg-gray-200 w-[20px] h-[20px] flex items-center justify-center"
-												onClick={() => handleDelete(log._id!)}
-											>
-												&times;
-											</button>
-										</div>
+								<div className="flex bg-white items-center border p-2">
+									<div className="flex-grow">
+										{log.subject} {log.action.name} {log.action.target.label} {log.action.target.type}
 									</div>
-									{/* </CollapseBox> */}
-								</>
+									<div className="flex gap-2 px-2">
+										{log.action.target.value !== undefined
+											? log.action.target.value.map((value) => <div className="bg-yellow-100 px-[2px]">{value}</div>)
+											: null}
+									</div>
+									<div className="flex shrink-0 items-center">
+										<SimpleButton onClick={() => handleDelete(log._id)}>Delete</SimpleButton>
+									</div>
+								</div>
 							)
+
+							// let separator = null
+
+							// const current = `${log.networkAddress} - ${log.device.split("(")[1].split(")")[0]}`
+							// if (current !== last) {
+							// 	separator = <Separator>{current}</Separator>
+							// }
+							// last = current
+
+							// const time = new Date(log.createdAt)
+
+							// if (log.action.name === "navigated") {
+							// 	return (
+							// 		<>
+							// 			{separator}
+							// 			<Separator>{log.action.target.label}</Separator>
+							// 		</>
+							// 	)
+							// }
+
+							// return (
+							// 	<>
+							// 		{separator}
+							// 		{/* <CollapseBox
+							// 			hidden={
+							// 				<pre className="text-[14px] font-RobotoMono p-2 bg-gray-800 text-white w-full overflow-auto">
+							// 					{JSON.stringify(log, null, 4)}
+							// 				</pre>
+							// 			}
+							// 		> */}
+							// 		<div className="border p-2 flex flex-col bg-white">
+							// 			<div className="flex gap-4 items-center">
+							// 				<div className="flex-grow flex items-center gap-1">
+							// 					<span className="">{log.action.name}</span>
+							// 					<span className="bg-orange-100 px-1">{log.action.target.label}</span>
+							// 					<span className="">{log.action.target.type}</span>
+							// 				</div>
+							// 				<div className="text-gray-500 flex gap-1 text-[12px]">
+							// 					<div>
+							// 						{time.getHours() < 10 ? 0 : null}
+							// 						{time.getHours()}:{time.getMinutes() < 10 ? 0 : null}
+							// 						{time.getMinutes()}
+							// 					</div>
+							// 					{/* <div>
+							// 					{time.getFullYear()}-{time.getMonth() + 1}-{time.getDate()}
+							// 				</div> */}
+							// 				</div>
+							// 				<button
+							// 					className="bg-gray-200 w-[20px] h-[20px] flex items-center justify-center"
+							// 					onClick={() => handleDelete(log._id!)}
+							// 				>
+							// 					&times;
+							// 				</button>
+							// 			</div>
+							// 		</div>
+							// 		{/* </CollapseBox> */}
+							// 	</>
+							// )
 						})
 					)}
 				</div>
+				{/* <Popup
+					open
+					title="Create Token"
+					controls={
+						<>
+							<PopupButton>Cancel</PopupButton>
+							<PopupButton>Create</PopupButton>
+						</>
+					}
+				>
+					<Input placeholder="Session Token" />
+					<Input placeholder="Subject" />
+					<div className="flex items-center px-2 gap-2">
+						<input type="checkbox" className="scale-125" id="input-dashboard-auto-expire" />
+						<label htmlFor="input-dashboard-auto-expire">Auto expire on use</label>
+					</div>
+				</Popup> */}
 			</div>
 		)
 	}
