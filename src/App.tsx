@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import LoggerMiddleware from "./components/middlewares/LoggerMiddleware"
 import ProtectedRoutes from "./components/middlewares/ProtectedRoutes"
 import Thinking from "./components/Thinking"
@@ -9,7 +9,6 @@ import { IAuth } from "./context/root/types/"
 import Dashboard from "./pages/Dashboard"
 import ErrorPage from "./pages/ErrorPage"
 import Goodbye from "./pages/Goodbye"
-import HeDoes from "./pages/HeDoes"
 import Heyo from "./pages/Heyo"
 import Login from "./pages/Login"
 import Question from "./pages/Question"
@@ -50,7 +49,7 @@ export default function App() {
 						<Route path="/" element={<ProtectedRoutes />}>
 							<Route index element={<Heyo />} />
 							<Route path="/question/:questionIdentifier" element={<Question />} />
-							<Route path="/question/he-does" element={<HeDoes />} />
+							<Route path="/question/goodbye" element={<Navigate to="/goodbye" />} />
 						</Route>
 						<Route path="/goodbye" element={<Goodbye />} />
 						<Route path="/login" element={<Login />} />

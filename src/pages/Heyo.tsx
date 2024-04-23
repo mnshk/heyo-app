@@ -15,9 +15,9 @@ export default function Heyo() {
 			<View>
 				<ViewMain>
 					<ViewHeading>Heyo {auth.subject}!</ViewHeading>
-					<div>Technically it's a survey. But I'd call it a quest.</div>
-					<div>Would you like to deep dive and answer some of these questions?</div>
-					<div>Some of the cliff-hangers are looking for answers.</div>
+					{/* <div>Technically it's a survey. But I'd call it a quest.</div> */}
+					<div>Would you like to deep dive to answer some of these questions?</div>
+					{/* <div>Some of the cliff-hangers are looking for answers.</div> */}
 				</ViewMain>
 				<ViewAction>
 					<ButtonNeutral
